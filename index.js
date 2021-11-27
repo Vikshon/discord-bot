@@ -9,6 +9,13 @@ const fs = require('fs');
 
 client.on('ready', () => {
     console.log('Ready!');
+
+    /* setInterval(() => {
+        require('./modules/newsletter.js')(client);
+    }, 1000 * 5); */
+    setInterval(() => {
+        require('./modules/statistics.js')(client);
+    }, 1000 * 5);
 });
 
 client.on('interactionCreate', async interaction => {

@@ -2,7 +2,34 @@
     "client": {
         "id": "913785070182080553"
     },
-    "servers": {
-        "zero": 0
-    }
+    "guilds": [
+        {
+            "name": "Сервер",
+            "id": "875406392998117446",
+            "groups": [
+                "tomclancyrainbowsix",
+                "r6sclub"
+            ],
+            "channels": {
+                "news": "878387924968816702",
+                "statistics": "878387924968816702"
+            },
+            "players": {
+                "キリル": {
+                    "discord_id": 0,
+                    "uplay_name": "zxc_GS",
+                    "bage": {
+                        "background": "ui_playercard_0"
+                    }
+                },
+                "Peshka07": {
+                    "discord_id": 0,
+                    "uplay_name": "Peshka07_GS",
+                    "bage": {
+                        "background": "ui_playercard_0"
+                    }
+                }
+            }
+        }
+    ]
 }
