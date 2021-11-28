@@ -12,24 +12,30 @@
             ],
             "channels": {
                 "news": "878387924968816702",
-                "statistics": "878387924968816702"
+                "statistics": "914284385912631297"
             },
-            "players": {
-                "キリル": {
-                    "discord_id": 0,
+            "players": [
+                {
+                    "discord_name": "キリル",
+                    "discord_id": "218398638211203073",
                     "uplay_name": "zxc_GS",
                     "bage": {
-                        "background": "ui_playercard_0"
+                        "background": "ui_playercard_0",
+                        "rank_image_side": "right",
+                        "text_color": "black"
                     }
                 },
-                "Peshka07": {
-                    "discord_id": 0,
+                {
+                    "discord_name": "Peshka07",
+                    "discord_id": "337641880995102721",
                     "uplay_name": "Peshka07_GS",
                     "bage": {
-                        "background": "ui_playercard_0"
+                        "background": "ui_playercard_1",
+                        "rank_image_side": "right",
+                        "text_color": "black"
                     }
                 }
-            }
+            ]
         }
     ]
 }

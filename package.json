@@ -13,9 +13,12 @@
     "@discordjs/builders": "^0.8.2",
     "@discordjs/rest": "^0.1.0-canary.0",
     "axios": "^0.24.0",
+    "canvas": "^2.8.0",
     "cheerio": "^1.0.0-rc.10",
     "discord.js": "^13.3.1",
     "express": "^4.17.1",
+    "gif-encoder-2": "^1.0.5",
+    "gif-frames": "^1.0.1",
     "node-fetch": "^2.6.1"
   }
 }
