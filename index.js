@@ -4,19 +4,22 @@ const { MessageAttachment, Client, Intents, Message } = require('discord.js');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 const commands = require('./modules/load_commands.js')(client);
 const fs = require('fs');
-const { registerFont } = require('canvas');
+const newsletter = require('./modules/newsletter.js');
+const statistics = require('./modules/statistics.js');
 // const secret = require('./secret.json');
 //
 
 client.on('ready', () => {
     console.log('Ready!');
+    console.log(client.commands)
 
+    statistics(client);
     /* setInterval(() => {
-        require('./modules/newsletter.js')(client);
+        newsletter(client);
     }, 1000 * 5); */
     setInterval(() => {
-        require('./modules/statistics.js')(client);
-    }, 1000 * 10);
+        statistics(client);
+    }, 1000 * 60);
 });
 
 client.on('interactionCreate', async interaction => {

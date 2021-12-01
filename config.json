@@ -1,41 +1,43 @@
 {
-    "client": {
-        "id": "913785070182080553"
-    },
-    "guilds": [
-        {
-            "name": "Сервер",
-            "id": "875406392998117446",
-            "groups": [
-                "tomclancyrainbowsix",
-                "r6sclub"
-            ],
-            "channels": {
-                "news": "878387924968816702",
-                "statistics": "914284385912631297"
-            },
-            "players": [
-                {
-                    "discord_name": "キリル",
-                    "discord_id": "218398638211203073",
-                    "uplay_name": "zxc_GS",
-                    "bage": {
-                        "background": "ui_playercard_0",
-                        "rank_image_side": "right",
-                        "text_color": "black"
-                    }
-                },
-                {
-                    "discord_name": "Peshka07",
-                    "discord_id": "337641880995102721",
-                    "uplay_name": "Peshka07_GS",
-                    "bage": {
-                        "background": "ui_playercard_1",
-                        "rank_image_side": "right",
-                        "text_color": "black"
-                    }
-                }
-            ]
-        }
-    ]
+	"client": {
+		"id": "913785070182080553"
+	},
+	"guilds": [
+		{
+			"name": "Сервер",
+			"id": "875406392998117446",
+			"groups": [
+				"tomclancyrainbowsix",
+				"r6sclub"
+			],
+			"channels": {
+				"news": "878387924968816702",
+				"statistics": "914284385912631297"
+			},
+			"players": [
+				{
+					"discord_name": "キリル",
+					"discord_id": "218398638211203073",
+					"uplay_name": "zxc_GS",
+					"bage": {
+						"background": "ui_playercard_0",
+						"rank_image_side": "left",
+						"text_color": "yellow",
+						"text_border": "red"
+					}
+				},
+				{
+					"discord_name": "Peshka07",
+					"discord_id": "337641880995102721",
+					"uplay_name": "Peshka07_GS",
+					"bage": {
+						"background": "ui_playercard_1",
+						"rank_image_side": "right",
+						"text_color": "black",
+						"text_border": "transparent"
+					}
+				}
+			]
+		}
+	]
 }

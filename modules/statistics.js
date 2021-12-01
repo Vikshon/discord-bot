@@ -7,7 +7,6 @@ const fetch = require('node-fetch');
 const config = require('../config.json');
 const GIFEncoder = require('gif-encoder-2');
 const gifFrames = require('gif-frames');
-const { discord_token } = require('../secret.json');
 let global_client;
 // Canvas.registerFont('./source/fonts/Montserrat-Regular.ttf', { family: 'Montserrat_Regular' });
 
@@ -23,11 +22,9 @@ function GetStatistics(client)
                 GetProfiles(uplay_names[i], function(stats) {
                     map.set(uplay_names[i], stats);
                     MakeCanvas(map.get(uplay_names[i]), async function(_name) {
-                        console.log(_name)
                         // let file = await fs.readdirSync(`./source/bages/current`).filter(file => file.startsWith(uplay_names[i]))[0];
                         let attachment = new MessageAttachment(`./source/bages/current/${_name}`);
                         await client.channels.cache.get(config.guilds[0].channels.statistics).send({ files: [attachment] });
-                        console.log('bg sended')
                     })
                 })
             }
@@ -94,8 +91,7 @@ async function MakeCanvas(map, callback)
     const background_file = await fs.readdirSync(`./source/bages/available`).filter(file => file.startsWith(background_name))[0];
     const background_type = background_file.slice(background_file.lastIndexOf('.') + 1);
     const background_default = await fs.readdirSync(`./source/bages/available`).filter(file => file.startsWith(`ui_playercard_0`))[0];
-    console.log(background_file, background_type);
-    PreloadResources(map, async function() {
+    await PreloadResources(map, async function() {
         if (background_type == "png")
         {
             const width = 512, height = 128;
@@ -123,7 +119,12 @@ async function MakeCanvas(map, callback)
             // ctx.font = '20px';
             // ctx.font = '20px Courier';
             ctx.font = '20px Impact';
-            ctx.fillStyle = "black";
+            ctx.fillStyle = config.guilds[0].players.find(p => p.uplay_name == map.name).bage.text_color || "black";
+            // Обводка текста
+            ctx.strokeStyle = config.guilds[0].players.find(p => p.uplay_name == map.name).bage.text_border || "transparent";
+            ctx.strokeText(name, (width - rank_image_size ) / 2 - ctx.measureText(name).width / 2, 30);
+            ctx.strokeText(statistic, (width - rank_image_size) / 2 - ctx.measureText(statistic).width / 2, 60);
+            ctx.strokeText(ops_header, (width - rank_image_size) / 2 - ctx.measureText(ops_header).width / 2, 90);
             // Сам текст
             ctx.fillText(name, (width - rank_image_size) / 2 - ctx.measureText(name).width / 2, 30);
             ctx.fillText(statistic, (width - rank_image_size) / 2 - ctx.measureText(statistic).width / 2, 60);
@@ -138,9 +139,7 @@ async function MakeCanvas(map, callback)
         else
         {
             CreateFrames(background_file, function() {
-                console.log("frames created")
                 MakeAGif(map, function() {
-                    console.log("gif created");
                     DeleteFrames(function() {
                         return callback(`${map.name}.${background_type}`);
                     })
@@ -197,8 +196,7 @@ async function MakeAGif(map, callback)
     const third_op = await Canvas.loadImage(`./source/operators/${map.ops[2].slice(map.ops[2].lastIndexOf('/') + 1, map.ops[2].lastIndexOf('.'))}.png`);
     // ctx.font = '20px Comfortaa-Bold';
     ctx.font = '20px Impact';
-    ctx.fillStyle = "black";
-    // ctx.fillStyle = config.bagesSettings[map.name].color || config.bagesSettings.default.color
+    ctx.fillStyle = config.guilds[0].players.find(p => p.uplay_name == map.name).bage.text_color || "black";
 
     let sorted = [];
     let files = fs.readdirSync('./source/bages/frames/').filter(file => file.endsWith('.png'));
@@ -209,17 +207,16 @@ async function MakeAGif(map, callback)
     for (let i of files)
     {
         const image = await Canvas.loadImage(`./source/bages/frames/${i}`);
-        console.log(image);
         ctx.drawImage(image, 0, 0, width, height);
         if (rank_position == "right")
             await ctx.drawImage(rank_image, width - rank_image_size, 0, rank_image_size, rank_image_size);
         else if (rank_position == "left")
             await ctx.drawImage(rank_image, 0, 0, -rank_image_size, -rank_image_size);
         // Обводка текста
-        /* ctx.strokeStyle = config.bagesSettings[name].border || config.bagesSettings.default.border
-        ctx.strokeText(name, (width - rank_image_size ) / 2 - ctx.measureText(name).width / 2, 30)
-        ctx.strokeText(statistic, (width - rank_image_size) / 2 - ctx.measureText(statistic).width / 2, 60)
-        ctx.strokeText(ops_header, (width - rank_image_size) / 2 - ctx.measureText(ops_header).width / 2, 90) */
+        ctx.strokeStyle = config.guilds[0].players.find(p => p.uplay_name == map.name).bage.text_border || "transparent";
+        ctx.strokeText(name, (width - rank_image_size ) / 2 - ctx.measureText(name).width / 2, 30);
+        ctx.strokeText(statistic, (width - rank_image_size) / 2 - ctx.measureText(statistic).width / 2, 60);
+        ctx.strokeText(ops_header, (width - rank_image_size) / 2 - ctx.measureText(ops_header).width / 2, 90);
         // Сам текст
         ctx.fillText(name, (width - rank_image_size) / 2 - ctx.measureText(name).width / 2, 30);
         ctx.fillText(statistic, (width - rank_image_size) / 2 - ctx.measureText(statistic).width / 2, 60);
@@ -230,7 +227,6 @@ async function MakeAGif(map, callback)
         encoder.addFrame(ctx);
     }
     encoder.finish();
-    // const buffer = await encoder.out.getData();
     fs.writeFileSync(`./source/bages/current/${map.name}.gif`, encoder.out.getData());
     return callback();
 }
