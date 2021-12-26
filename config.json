@@ -22,8 +22,8 @@
 					"bage": {
 						"background": "ui_playercard_0",
 						"rank_image_side": "left",
-						"text_color": "yellow",
-						"text_border": "red"
+						"text_color": "pink",
+						"text_border": "black"
 					}
 				},
 				{

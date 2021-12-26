@@ -1,0 +1,31 @@
+doctype html
+html
+  head
+    title= title
+  style
+    include style.css
+  body
+    .wrapper
+      .main
+        .header
+          h1 r6newspaper
+        .preview
+          .container
+            .img
+              img(src=`../bages/available/ui_playercard_0.png`)
+            .settings
+              label Цвет текста: #[input(type='color')]
+              label Рамка #[input(type='checkbox' id='border_checkbox' class='checkbox_hide')]
+              label(class='hide_toggle') Цвет рамки: #[input(type='color')]
+              label Обводка текста #[input(type='checkbox' id='text_outline_checkbox' class='checkbox_hide')]
+              label(class='hide_toggle') Цвет обводки: #[input(type='color')]
+              span Расположение ранга: #[select #[option(selected)="Справа"] #[option="Слева"]]
+        .library
+          .container
+            each picture in data
+              img(src=`../bages/available/${picture}`)
+    script
+      | let data = !{JSON.stringify(data)};
+      | console.log(data);
+    script
+      include index.js

@@ -37,10 +37,27 @@ function GetStatistics(client)
 
 async function ClearMessages(channel, callback)
 {
+    let current_date = Date.now();
+    // toDO: get user count for limit
     let messages = await channel.messages.fetch({limit: 5});
+    // Получаем разницу в днях между текущей и каждого сообщения в канале
+    let dates_difference = [...messages.values()].map(el => Math.floor((current_date - el.createdTimestamp) / (1000 * 3600 * 24)));
     if (messages.size > 0)
-		await channel.bulkDelete(messages);
+    {
+        if (Math.max(...dates_difference) < 14)
+            await channel.bulkDelete(messages);
+        else
+            console.log("Сообщение слишком старое. Удалить невозможно.");
+    }
     return callback();
+    /* try {
+        if (messages.size > 0 && Math.max(...dates_difference) < 14)
+            await channel.bulkDelete(messages);
+        return callback();
+    }
+    catch (err) {
+        console.log(err);
+    } */
 }
 
 async function GetProfiles(uplay_name, callback)
@@ -87,19 +104,20 @@ async function GetProfiles(uplay_name, callback)
 
 async function MakeCanvas(map, callback)
 {
+    console.log(map)
     let background_name = config.guilds[0].players.find(p => p.uplay_name == map.name).bage.background;
     const background_file = await fs.readdirSync(`./source/bages/available`).filter(file => file.startsWith(background_name))[0];
     const background_type = background_file.slice(background_file.lastIndexOf('.') + 1);
     const background_default = await fs.readdirSync(`./source/bages/available`).filter(file => file.startsWith(`ui_playercard_0`))[0];
-    await PreloadResources(map, async function() {
+    PreloadResources(map, async function() {
         if (background_type == "png")
         {
             const width = 512, height = 128;
             const canvas = Canvas.createCanvas(width, height);
             const ctx = canvas.getContext('2d');
             const canvas_background = await Canvas.loadImage(`./source/bages/available/${background_file}` || `./source/bages/available/${background_default}`);
-            const rank_image = await Canvas.loadImage(`./source/ranks/${map.rank_name}.svg`);
-            const rank_position = config.guilds[0].players.find(p => p.uplay_name == map.name).bage.rank_image_side;
+            const rank_image = await Canvas.loadImage(`./source/ranks/${map.rank_name}.svg` || `./source/ranks/No Rank.svg`);
+            const rank_position = config.guilds[0].players.find(p => p.uplay_name == map.name).bage.rank_image_side || "right";
             const rank_image_size = (rank_position == "right") ? height : -height;
             const name = map.name;
             const statistic = `${map.mmr} MMR    ${map.rank_name}    ${map.kd} kd`;
@@ -161,7 +179,10 @@ async function PreloadResources(map, callback)
         if (!fs.existsSync(`./source/operators/${op}.png`))
             await fetch(i).then(res => res.body.pipe(fs.createWriteStream(`./source/operators/${op}.png`)))
     }
-    return callback();
+    setTimeout(() => {
+        return callback();        
+    }, 2000);
+    // return callback();
 }
 
 async function CreateFrames(background_file, callback)

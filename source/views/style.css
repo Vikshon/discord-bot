@@ -1,0 +1,103 @@
+@font-face {
+    font-family: "Comfortaa";
+    src: url(/fonts/Comfortaa-Light.ttf);
+}
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Comfortaa;
+}
+html, body {
+    min-height: 100%;
+    height: 1px;
+    color: #FDFFFC;
+}
+.wrapper {
+    height: 100%;
+    background-color: #00101d;
+}
+.main {
+    margin: 0 auto;
+    width: 60%;
+    height: 100%;
+    border-right: 1px solid #FDFFFC;
+    border-left: 1px solid #FDFFFC;
+    box-shadow: -1px 0 10px white,
+                1px 0 10px white;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.header {
+    width: 100%;
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #FDFFFC;
+}
+.header > * {
+    background: linear-gradient(45deg, red, orange, yellow, green, skyblue, blue, violet);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.preview {
+    border-bottom: 1px solid #FDFFFC;
+    width: 100%;
+}
+.preview .container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.preview .container .img {
+    padding: 10px;
+}
+img {
+    box-shadow: 0 5px 5px #000305;
+}
+.preview .container .settings {
+    width: 100%;
+    border-bottom: 1px solid #FDFFFC;
+    padding: 10px;
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.preview .container .settings > *:not(:last-child) {
+    margin-right: 20px;
+}
+.preview .container .settings input[type='color'] {
+    width: 25px;
+    height: 25px;
+    background-color: transparent;
+    border-radius: 50%;
+}
+.preview .container .settings select {
+    color: #FDFFFC;
+    background-color: #00101d;
+}
+/* .library {
+    
+} */
+.library .container {
+    padding: 10px;
+    flex-wrap: wrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    row-gap: 10px;
+    column-gap: 10px;
+}
+.library .container img:hover {
+    box-shadow: 0 0 10px 2px #ad9600;
+    outline: 1px solid #F1D302;
+}
+.hide_toggle {
+    display: none;
+}

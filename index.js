@@ -11,15 +11,15 @@ const statistics = require('./modules/statistics.js');
 
 client.on('ready', () => {
     console.log('Ready!');
-    console.log(client.commands)
+    // console.log(client.commands)
 
-    statistics(client);
-    /* setInterval(() => {
+    /* statistics(client);
+    setInterval(() => {
         newsletter(client);
-    }, 1000 * 5); */
+    }, 1000 * 5);
     setInterval(() => {
         statistics(client);
-    }, 1000 * 60);
+    }, 1000 * 60); */
 });
 
 client.on('interactionCreate', async interaction => {
@@ -33,6 +33,20 @@ client.on('interactionCreate', async interaction => {
 		console.error(error);
 		await interaction.reply({ content: 'Данной команды не существует!', ephemeral: true });
     }
+})
+
+client.on('interactionCreate', async interaction => {
+	if (!interaction.isButton()) return
+    const op_name = interaction.message.content;
+    /* await interaction.reply({content: `Оператвник Thorn.\nСторона: боец защиты\nРоль: защита объекта\nЗдоровье: 2/3 | Скорость 2/3\nСнаряжение:\n\t1) ПП UZK50GI / Дробовик M870\n\t2) Пистолет 1911 TACOPS / МИНИ-ПП C75 Auto\n\t3) Стационарный щит / Колючая проволока\n\t4) Снаряд "RAZORBLOOM" - Thorn выстреливает снарядами "Razorbloom", после чего они прилипают к поверхностям. Когда к этому месту приближается противник, снаряд выпускает смертоносные лезвия по всем направлениям.\n\nСсылки: <https://www.youtube.com/watch?time_continue=95&v=EkaGYQTpfLA&feature=emb_logo&ab_channel=IGN>`}); */
+    await interaction.reply({content: `Карта VILLA.\nСсылки:\n<https://www.ubisoft.com/ru-ru/game/rainbow-six/siege/game-info/maps/villa>\n<https://www.youtube.com/watch?v=DXOnguMP1fU&ab_channel=UbisoftNorthAmerica>`});
+
+
+    /* let userId = interaction.user.id
+	let customId = interaction.customId.slice(0, interaction.customId.lastIndexOf('.'))
+    let count = await fs.readdirSync('./source/bages/available').length
+    console.log(count);
+    await interaction.reply({content: `Вы успешно поменяли фон на ${customId}`, ephemeral: true}) */
 })
 
 client.on('messageCreate', async msg => {
