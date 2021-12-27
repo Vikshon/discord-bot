@@ -55,6 +55,58 @@ html, body {
 }
 .preview .container .img {
     padding: 10px;
+    position: relative;
+}
+.preview .container .img::after {
+    content: "* статистика взята случайная";
+    position: absolute;
+    font-size: .8rem;
+    color: gray;
+    top: 95%;
+    left: 10px;
+    margin-bottom: 100px;
+}
+.preview .container .img .user_info { /* Специальный блок для статистики пользователя. Чтобы каждый раз не создавать канвас с его данными */
+    padding: 10px;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: grid;
+    grid-template-columns: 1fr 128px;
+    grid-auto-rows: calc((100% - 5px ) / 4);
+    grid-template-areas: 
+        "nickname image"
+        "statistic image"
+        "top_ops image"
+        "ops_img image"; 
+}
+#rank_img { grid-area: image; }
+#uplay_name { grid-area: nickname; }
+#statistic {
+    grid-area: statistic;
+    column-gap: 50px;
+}
+#top_ops { grid-area: top_ops; }
+#ops_img { 
+    grid-area: ops_img;
+    column-gap: 20px;
+}
+#ops_img img {
+    width: 20px;
+    height: 20px;
+}
+.preview .container .img .user_info > *:not(#rank_img) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+#rank_img img {
+    box-shadow: none;
+    height: 100%;
+    width: 100%;
 }
 img {
     box-shadow: 0 5px 5px #000305;

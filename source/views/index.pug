@@ -5,6 +5,8 @@ html
   style
     include style.css
   body
+  - var pictures = data[1];
+  - var params = data[0];
     .wrapper
       .main
         .header
@@ -13,6 +15,19 @@ html
           .container
             .img
               img(src=`../bages/available/ui_playercard_0.png`)
+              .user_info
+                #uplay_name Никнейм
+                #statistic
+                  span= '9999MMR'
+                  span= 'No Rank'
+                  span= '9.99kd'
+                #top_ops Top Operators
+                #ops_img
+                  img(src="../operators/frost.png")
+                  img(src="../operators/mute.png")
+                  img(src="../operators/sledge.png")
+                #rank_img
+                  img(src="../ranks/No Rank.webp")
             .settings
               label Цвет текста: #[input(type='color')]
               label Рамка #[input(type='checkbox' id='border_checkbox' class='checkbox_hide')]
@@ -22,7 +37,7 @@ html
               span Расположение ранга: #[select #[option(selected)="Справа"] #[option="Слева"]]
         .library
           .container
-            each picture in data
+            each picture in pictures
               img(src=`../bages/available/${picture}`)
     script
       | let data = !{JSON.stringify(data)};

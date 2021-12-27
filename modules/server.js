@@ -1,11 +1,10 @@
 const fs = require('fs');
-async function GetNames()
+async function Get_Data(params)
 {
-    /* let arr = [];
-    arr.push(await fs.readdirSync(__dirname + '/../source/bages/available/'));
-    arr.push('test');
-    return arr; */
-    return await fs.readdirSync(__dirname + '/../source/bages/available/');
+    // TODO: Нужно в конфиг записывать стату игроков, чтобы передавать её на сайт и там выводить персональную инфу. Пока что обойдёмся случайной
+    let data = [params, await fs.readdirSync(__dirname + '/../source/bages/available/')];
+    return data;
+    //// return await fs.readdirSync(__dirname + '/../source/bages/available/');
 }
 
 module.exports = () => {
@@ -17,7 +16,7 @@ module.exports = () => {
     app.set('view engine', 'pug');
 
     app.get('/', async (req, res) => {
-        res.render('index', { title: 'Document', data: await GetNames() });
+        res.render('index', { title: 'Document', data: await Get_Data(req.params) });
     });
     
     app.listen(port, () => console.log(`Example app listening at https://localhost:${port}`));

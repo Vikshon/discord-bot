@@ -16,9 +16,6 @@ CHECKBOX_HIDE.forEach(el => {
 
 function Change_Background()
 {
-    let background = document.createElement('img');
-    background.src = this.src;
-    let container = document.querySelector('.preview .container .img');
-    container.innerHTML = '';
-    container.appendChild(background);
+    let img = document.querySelector('.preview .container .img img');
+    img.src = this.src;
 }
