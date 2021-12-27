@@ -1,14 +1,14 @@
-const settings = document.querySelector('.settings');
-const preview = document.querySelector('.preview');
-const library = document.querySelector('.library');
+const SETTINGS = document.querySelector('.settings');
+const PREVIEW = document.querySelector('.preview');
+const LIBRARY = document.querySelector('.library');
+const IMAGES = document.querySelectorAll('img');
 
-const images = document.querySelectorAll('img');
-images.forEach(el => {
+IMAGES.forEach(el => {
     el.addEventListener('click', Change_Background)
 });
 
-let checkbox_hide = document.querySelectorAll('.checkbox_hide');
-checkbox_hide.forEach(el => {
+const CHECKBOX_HIDE = document.querySelectorAll('.checkbox_hide');
+CHECKBOX_HIDE.forEach(el => {
     el.addEventListener('click', () => {
         event.target.parentNode.nextElementSibling.classList.toggle('hide_toggle');
     })
@@ -22,7 +22,3 @@ function Change_Background()
     container.innerHTML = '';
     container.appendChild(background);
 }
-
-/* window.onload = () => {
-    console.log('object1');
-} */

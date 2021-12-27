@@ -16,7 +16,9 @@ module.exports = () => {
     app.set('views', __dirname + '/../source/views');
     app.set('view engine', 'pug');
 
-    app.get('/', async (req, res) => res.render('index', { title: 'Document', data: await GetNames() }));
+    app.get('/', async (req, res) => {
+        res.render('index', { title: 'Document', data: await GetNames() });
+    });
     
     app.listen(port, () => console.log(`Example app listening at https://localhost:${port}`));
 }

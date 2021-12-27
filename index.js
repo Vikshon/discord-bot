@@ -23,8 +23,10 @@ client.on('ready', () => {
 });
 
 client.on('interactionCreate', async interaction => {
-    if (!interaction.isCommand()) return;
-    if (!client.commands.has(interaction.commandName)) return;
+    // TODO: Отсавить просто return
+    // TODO: Сделать ссылки на профили в json постоянными. То есть, при добавлении нового юзера можно пробивать его permanent link в r6tracker и записывать в json
+    if (!interaction.isCommand()) return await interaction.reply({ content: 'Не является командой', ephemeral: true });
+    if (!client.commands.has(interaction.commandName)) return await interaction.reply({ content: 'Команды не существует', ephemeral: true });
 
     try {
 		await client.commands.get(interaction.commandName).execute(interaction);
