@@ -13,8 +13,8 @@ client.on('ready', () => {
     console.log('Ready!');
     // console.log(client.commands)
 
-    /* statistics(client);
-    setInterval(() => {
+    statistics(client);
+    /* setInterval(() => {
         newsletter(client);
     }, 1000 * 5);
     setInterval(() => {

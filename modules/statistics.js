@@ -8,7 +8,7 @@ const config = require('../config.json');
 const GIFEncoder = require('gif-encoder-2');
 const gifFrames = require('gif-frames');
 let global_client;
-// Canvas.registerFont('./source/fonts/Montserrat-Regular.ttf', { family: 'Montserrat_Regular' });
+Canvas.registerFont('./source/fonts/Comfortaa-Bold.ttf', { family: 'Comfortaa' });
 
 function GetStatistics(client)
 {
@@ -20,6 +20,10 @@ function GetStatistics(client)
             for (let i = 0; i < uplay_names.length; i++)
             {
                 GetProfiles(uplay_names[i], function(stats) {
+                    // TODO: Вроде как хочу перманент закинуть в конфиг, возможно это делать нужно не здесь
+                    config.guilds[0].players.find(person => person.uplay_name == uplay_names[i]).permanent_link = stats.permanent_link;
+                    fs.writeFileSync('./config.json', JSON.stringify(config, null, '\t'));
+                    // 
                     map.set(uplay_names[i], stats);
                     MakeCanvas(map.get(uplay_names[i]), async function(_name) {
                         // let file = await fs.readdirSync(`./source/bages/current`).filter(file => file.startsWith(uplay_names[i]))[0];
@@ -80,7 +84,12 @@ async function GetProfiles(uplay_name, callback)
             kd = kd.slice(kd.indexOf("\n") + 1, kd.indexOf("</div>") - 1);
             let ops = [];
             let pattern = /https:\/\/.*.png/g;
-            let links = temp.matchAll(pattern)
+            let links = temp.matchAll(pattern);
+            pattern = /https:\/\/.*"/g;
+            let permanent = $('#profile > div.trn-scont.trn-scont--swap > div.trn-scont__aside > div:nth-child(3)').html();
+            permanent = pattern.exec(permanent)[0];
+            permanent = permanent.slice(0, permanent.indexOf('"'));
+            console.log(permanent);
             for (let i of links)
                 ops.push(i[0]);
 
@@ -91,7 +100,8 @@ async function GetProfiles(uplay_name, callback)
                 mmr: mmr,
                 ops: ops,
                 avatar: avatar,
-                kd: kd
+                kd: kd,
+                permanent_link: permanent
             };
             return obj;
         }
@@ -136,7 +146,7 @@ async function MakeCanvas(map, callback)
             // Настройка текста
             // ctx.font = '20px';
             // ctx.font = '20px Courier';
-            ctx.font = '20px Impact';
+            ctx.font = '20px Comfortaa';
             ctx.fillStyle = config.guilds[0].players.find(p => p.uplay_name == map.name).bage.text_color || "black";
             // Обводка текста
             ctx.strokeStyle = config.guilds[0].players.find(p => p.uplay_name == map.name).bage.text_border || "transparent";
@@ -216,7 +226,7 @@ async function MakeAGif(map, callback)
     const second_op = await Canvas.loadImage(`./source/operators/${map.ops[1].slice(map.ops[1].lastIndexOf('/') + 1, map.ops[1].lastIndexOf('.'))}.png`);
     const third_op = await Canvas.loadImage(`./source/operators/${map.ops[2].slice(map.ops[2].lastIndexOf('/') + 1, map.ops[2].lastIndexOf('.'))}.png`);
     // ctx.font = '20px Comfortaa-Bold';
-    ctx.font = '20px Impact';
+    ctx.font = '20px Comfortaa';
     ctx.fillStyle = config.guilds[0].players.find(p => p.uplay_name == map.name).bage.text_color || "black";
 
     let sorted = [];
