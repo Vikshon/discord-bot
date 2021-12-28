@@ -2,6 +2,10 @@
     font-family: "Comfortaa";
     src: url(/fonts/Comfortaa-Light.ttf);
 }
+@font-face {
+    font-family: "Montserrat";
+    src: url(/fonts/Montserrat-Regular.ttf);
+}
 * {
     padding: 0;
     margin: 0;
@@ -40,6 +44,7 @@ html, body {
 .header > * {
     background: linear-gradient(45deg, red, orange, yellow, green, skyblue, blue, violet);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 .preview {
@@ -113,7 +118,6 @@ img {
 }
 .preview .container .settings {
     width: 100%;
-    border-bottom: 1px solid #FDFFFC;
     padding: 10px;
     line-height: 1.5;
     display: flex;
@@ -134,9 +138,27 @@ img {
     color: #FDFFFC;
     background-color: #00101d;
 }
-/* .library {
-    
-} */
+.save_settings {
+    padding: 0 0 10px;
+}
+#save_btn {
+    font-size: 1rem;
+    padding: 5px 10px;
+    font-family: Montserrat, sans-serif;
+    border: 1px solid;
+    border-image: linear-gradient(180deg, #ff3000, #ed0200, #ff096c, #d50082);
+    border-image-slice: 1;
+    background-color: transparent;
+    letter-spacing: 2px;
+    color: #FDFFFC;
+    cursor: pointer;
+    position: relative;
+    transition: .3s;
+}
+#save_btn:hover {
+    box-shadow: 0 -2px 10px #ed0200,
+                0 2px 10px #d50082;
+}
 .library .container {
     padding: 10px;
     flex-wrap: wrap;

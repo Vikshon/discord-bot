@@ -19,5 +19,10 @@ module.exports = () => {
         res.render('index', { title: 'Document', data: await Get_Data(req.params) });
     });
     
+    app.get('/save', async (req, res) => {
+        await fs.writeFileSync('./TEST.TXT', 'string1');
+        await res.redirect('back');
+    });
+    
     app.listen(port, () => console.log(`Example app listening at https://localhost:${port}`));
 }

@@ -35,6 +35,8 @@ html
               label Обводка текста #[input(type='checkbox' id='text_outline_checkbox' class='checkbox_hide')]
               label(class='hide_toggle') Цвет обводки: #[input(type='color')]
               span Расположение ранга: #[select #[option(selected)="Справа"] #[option="Слева"]]
+            .save_settings
+              button#save_btn= 'Сохранить'
         .library
           .container
             each picture in pictures

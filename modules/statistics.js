@@ -12,6 +12,7 @@ Canvas.registerFont('./source/fonts/Comfortaa-Bold.ttf', { family: 'Comfortaa' }
 
 function GetStatistics(client)
 {
+    // TODO: Нужно переписывать почти всё. Делать скан профиля по ссылке либо по нику, если в первый раз
     try {
         const channel = client.channels.cache.get(config.guilds[0].channels.statistics);
         ClearMessages(channel, function() {
