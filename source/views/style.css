@@ -39,13 +39,28 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     border-bottom: 1px solid #FDFFFC;
+    overflow: hidden;
 }
-.header > * {
-    background: linear-gradient(45deg, red, orange, yellow, green, skyblue, blue, violet);
+.header .logo {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+.header .logo img {
+    height: 128px;
+    border-radius: 50%;
+}
+.header > h1 {
+    /* background: linear-gradient(45deg, red, orange, yellow, green, skyblue, blue, violet);
     -webkit-background-clip: text;
     background-clip: text;
-    -webkit-text-fill-color: transparent;
+    -webkit-text-fill-color: transparent; */
+    color: #FDFFFC;
+    text-shadow: 0 0 15px white, 0 0 50px rgb(255, 255, 255);
 }
 .preview {
     border-bottom: 1px solid #FDFFFC;
