@@ -26,5 +26,20 @@ function Change_Background()
 function Save_Data()
 {
     this.innerText = "Сохранено";
-    location.href = `http://localhost:3000/save/${location.search}`;
+    
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", '/save');
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onreadystatechange = function() {//Вызывает функцию при смене состояния.
+        if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+            // Запрос завершён. Здесь можно обрабатывать результат.
+        }
+    }
+
+    let data = {
+        k1: 'v1',
+        k2: 'v2'
+    }
+
+    xhr.send(JSON.stringify(data));
 }
