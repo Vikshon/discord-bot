@@ -10,11 +10,16 @@ async function Get_Data(params)
 
 async function Update_Config(params)
 {
-    let current_player = CONFIG.guilds.find(g => g.id == params.current_guild).players.find(p => p.uplay_name == params.uplay_name);
-    delete params.current_guild;
-    delete params.uplay_name;
-    current_player.bage = params;
-    await fs.writeFileSync('./config.json', JSON.stringify(CONFIG, null, '\t'));
+    try {
+        let current_player = CONFIG.guilds.find(g => g.id == params.current_guild).players.find(p => p.uplay_name == params.uplay_name);
+        delete params.current_guild;
+        delete params.uplay_name;
+        current_player.bage = params;
+        await fs.writeFileSync('./config.json', JSON.stringify(CONFIG, null, '\t'));        
+    }
+    catch (err) {
+        console.log(err);
+    }
 }
 
 module.exports = () => {
@@ -37,11 +42,6 @@ module.exports = () => {
         await Update_Config(req.body);
         await res.redirect('back');
     });
-    
-    /* app.get('/save', async (req, res) => {
-        await fs.writeFileSync('./TEST.TXT', 'string1');
-        await res.redirect('back');
-    }); */
     
     app.listen(port, () => console.log(`Example app listening at https://localhost:${port}`));
 }

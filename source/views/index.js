@@ -29,23 +29,28 @@ CHECKBOX_HIDE.forEach(el => {
 TEXT_COLOR_INPUT.addEventListener('change', () => {
     params.text_color = event.target.value;
 })
+
 BORDER_COLOR_INPUT.addEventListener('change', () => {
     params.bage_border = event.target.value;
 })
+
 TEXT_OUTLINE_COLOR_INPUT.addEventListener('change', () => {
     params.text_border = event.target.value;
 })
+
 RANK_IMAGE_SIDE_SELECT.addEventListener('change', () => {
     if (event.target.value === "Слева")
         params.rank_image_side = "left";
     else
         params.rank_image_side = "right";
 })
+
 BORDER_STATUS.addEventListener('click', () => {
     params.bage_border = "black";
     if (!event.target.checked)
         params.bage_border = "transparent";
 })
+
 TEXT_OUTLINE_STATUS.addEventListener('click', () => {
     params.text_border = "black";
     if (!event.target.checked)
