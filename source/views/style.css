@@ -11,6 +11,26 @@
     margin: 0;
     box-sizing: border-box;
     font-family: Comfortaa;
+    transition: 2s ease-in-out;
+}
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #00101d; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #004074;
+    border-radius: 5px 5px 5px 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #005eaa; 
 }
 /* TODO: Мне бы разобраться какую там высоту блокам задать и тп... */
 html, body {
