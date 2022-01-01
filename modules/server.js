@@ -1,10 +1,20 @@
 const fs = require('fs');
+const CONFIG = require('../config.json');
 async function Get_Data(params)
 {
     // TODO: Нужно в конфиг записывать стату игроков, чтобы передавать её на сайт и там выводить персональную инфу. Пока что обойдёмся случайной
     let data = [params, await fs.readdirSync(__dirname + '/../source/bages/available/')];
     return data;
     //// return await fs.readdirSync(__dirname + '/../source/bages/available/');
+}
+
+async function Update_Config(params)
+{
+    let current_player = CONFIG.guilds.find(g => g.id == params.current_guild).players.find(p => p.uplay_name == params.uplay_name);
+    delete params.current_guild;
+    delete params.uplay_name;
+    current_player.bage = params;
+    await fs.writeFileSync('./config.json', JSON.stringify(CONFIG, null, '\t'));
 }
 
 module.exports = () => {
@@ -19,12 +29,13 @@ module.exports = () => {
     app.use(bodyParser.urlencoded({ extended: true }));
 
     app.get('/', async (req, res) => {
-        res.render('index', { title: 'Document', data: await Get_Data(req.params) });
+        res.render('index', { title: 'Document', data: await Get_Data(req.query) });
     });
     
     app.post('/save', async (req, res) => {
         console.log(req.body);
-        await res.redirect('back')
+        await Update_Config(req.body);
+        await res.redirect('back');
     });
     
     /* app.get('/save', async (req, res) => {

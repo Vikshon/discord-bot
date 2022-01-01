@@ -31,12 +31,12 @@ html
                 #rank_img
                   img(src="../ranks/No Rank.webp")
             .settings
-              label Цвет текста: #[input(type='color')]
+              label Цвет текста: #[input(type='color' class='text_color')]
               label Рамка #[input(type='checkbox' id='border_checkbox' class='checkbox_hide')]
-              label(class='hide_toggle') Цвет рамки: #[input(type='color')]
+              label(class='hide_toggle') Цвет рамки: #[input(type='color' class='border_color')]
               label Обводка текста #[input(type='checkbox' id='text_outline_checkbox' class='checkbox_hide')]
-              label(class='hide_toggle') Цвет обводки: #[input(type='color')]
-              span Расположение ранга: #[select #[option(selected)="Справа"] #[option="Слева"]]
+              label(class='hide_toggle') Цвет обводки: #[input(type='color' class='text_outline_color')]
+              span Расположение ранга: #[select(class='rank_image_side_select') #[option(selected)="Справа"] #[option="Слева"]]
             .save_settings
               button#save_btn= 'Сохранить'
         .library

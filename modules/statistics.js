@@ -30,6 +30,10 @@ async function Get_Statistics(client)
 
                     // TODO: Вроде как хочу перманент закинуть в конфиг, возможно это делать нужно не здесь
                     CURRENT_GUILD.players.find(p => p.uplay_name == i).permanent_link = await stats.permanent_link;
+                    // ! Если пользователь изменил ник в uplay, то меняем его ник в конфиге
+                    let new_name = await stats.new_uplay_name;
+                    if (i !== new_name)
+                        CURRENT_GUILD.players.find(p => p.uplay_name == i).uplay_name = new_name;
                     await fs.writeFileSync('./config.json', JSON.stringify(config, null, '\t'));
                     // 
                     await map.set(i, stats)
@@ -90,6 +94,7 @@ async function Get_Profiles(uplay_name, permanent)
             let permanent = $('#profile > div.trn-scont.trn-scont--swap > div.trn-scont__aside > div:nth-child(3)').html();
             permanent = pattern.exec(permanent)[0];
             permanent = permanent.slice(0, permanent.indexOf('"'));
+            let new_uplay_name = $('#profile > div.trn-profile-header > div > div.trn-profile-header__main > h1 > span.trn-profile-header__name').html().trim();
             for (let i of links)
                 ops.push(i[0]);
 
@@ -101,7 +106,8 @@ async function Get_Profiles(uplay_name, permanent)
                 ops: ops,
                 avatar: avatar,
                 kd: kd,
-                permanent_link: permanent
+                permanent_link: permanent,
+                new_uplay_name: new_uplay_name
             };
             return obj;
         }
