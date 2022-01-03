@@ -21,6 +21,7 @@
     "express": "^4.17.1",
     "gif-encoder-2": "^1.0.5",
     "gif-frames": "^1.0.1",
+    "node-fetch": "^2.6.1",
     "pug": "^3.0.2"
   }
 }

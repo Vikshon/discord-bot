@@ -14,7 +14,9 @@ async function Get_Statistics(client)
 {
     try {
         // ! Можно просто передать кэш, либо создать из них map ?
-        const GUILDS_ID = await client.guilds.cache.map(g => g.id);
+        // TODO: При добавлении на новые сервера нет записи в конфиге, соответственно ошибка. Нужно брать данные о доступных гильдиях из кфг, либо синхронизировать кфг и кэш
+        // const GUILDS_ID = await client.guilds.cache.map(g => g.id);
+        const GUILDS_ID = await config.guilds.map(g => g.id);
         for (let i of GUILDS_ID)
         {
             const CURRENT_GUILD = await config.guilds.find(g => g.id == i);

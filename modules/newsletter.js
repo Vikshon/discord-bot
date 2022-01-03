@@ -1,7 +1,9 @@
 const fs = require('fs');
 const fetch = require('node-fetch');
 const config = require('../config.json');
-const { discord_token, vk_token } = require('../secret.json');
+// const { discord_token, vk_token } = process.env || require('../secret.json');
+const discord_token = process.env.discord_token || require('../secret.json').discord_token;
+const vk_token = process.env.vk_token || require('../secret.json').vk_token;
 let global_client;
 
 function GetPosts(client)
@@ -10,7 +12,7 @@ function GetPosts(client)
     const groups = config.guilds[0].groups;
     groups.forEach(async name => {
         try {
-            let items = await fetch(`https://api.vk.com/method/wall.get?domain=${name}&count=5&v=5.131&access_token=${process.env.vkToken || vk_token}`).then(data => data.json()).then(json => json.response.items)
+            let items = await fetch(`https://api.vk.com/method/wall.get?domain=${name}&count=5&v=5.131&access_token=${process.env.vk_token || vk_token}`).then(data => data.json()).then(json => json.response.items)
             let last_post = items[0];
             if (items[0].is_pinned)
                 last_post = items[1];

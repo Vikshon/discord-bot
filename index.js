@@ -14,12 +14,12 @@ client.on('ready', () => {
     // console.log(client.commands)
 
     statistics(client);
-    /* setInterval(() => {
+    setInterval(() => {
         newsletter(client);
     }, 1000 * 5);
     setInterval(() => {
         statistics(client);
-    }, 1000 * 60); */
+    }, 1000 * 60);
 });
 
 client.on('interactionCreate', async interaction => {

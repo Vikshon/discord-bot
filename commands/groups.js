@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const fs = require('fs');
 const fetch = require('node-fetch');
 let config = require('../config.json');
-const { vk_token } = require('../secret.json');
+const { vk_token } = process.env.vk_token || require('../secret.json');
 
 module.exports = {
 	data: new SlashCommandBuilder()
