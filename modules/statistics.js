@@ -250,7 +250,7 @@ async function Make_Gif(stats, CURRENT_GUILD)
 
 async function Delete_Frames()
 {
-    const files = await fs.readdirSync('./source/bages/frames/');
+    const files = await fs.readdirSync('./source/bages/frames/').filter(file => file.endsWith('.png'));;
     await files.forEach(async file => await fs.unlinkSync('./source/bages/frames/' + file));
 }
 

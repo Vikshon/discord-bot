@@ -67,6 +67,8 @@ function Change_Background()
 
 function Save_Data()
 {
+    if (!(uplay_name in params))
+        return;
     this.innerText = "Сохранено";
     
     let xhr = new XMLHttpRequest();
@@ -76,11 +78,6 @@ function Save_Data()
         if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
             // Запрос завершён. Здесь можно обрабатывать результат.
         }
-    }
-
-    let data = {
-        k1: 'v1',
-        k2: 'v2'
     }
 
     // console.log(JSON.stringify(params));
