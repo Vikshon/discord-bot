@@ -3,3 +3,4 @@ Some issues in modules/newsetter.js with video attachments
 -- FEATURES
 Commands for setting up monitoring system (add / remove profiles)
 Add more settings for guild admins
+Add ADMIN (bot creator) interaction in PM
