@@ -1,6 +1,10 @@
 -- FIX
 Some issues in modules/newsetter.js with video attachments
+Transfer all guilds[0] to const CURRENT_GUILD
+В мониторинге профиль может не существовать в базе, нужно это учесть
+Если профиль удален из статистики, то нужно удалять его бейдж из локального хранилища
 -- FEATURES
+Not sure about uplay rules with nicknames. Probably monitoring should depending on permanent links
 Commands for setting up monitoring system (add / remove profiles)
 Add more settings for guild admins
 Add ADMIN (bot creator) interaction in PM

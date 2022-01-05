@@ -1,6 +1,9 @@
 ---
 Fixing type video issue in modules/newsetter
 Changed updating time in index.js
+modules/statistic.js files array (frames) refactor to sort()
+new commands group - mt.js
+New format of todo.txt (translated to rus)
 ---
 Added changelog.txt and todo.txt
 Added .gitkeep in source/bages/frames for tracking frames folder
