@@ -79,7 +79,7 @@ async function GetAttachments(last_post, callback)
         else if (type == "video")
         {
             console.log(`https://api.vk.com/method/video.get?videos=${path.owner_id}_${path.id}_${path.access_key}&v=5.131&access_token=${process.env.vk_token || vk_token}`);
-            let url = await fetch(`https://api.vk.com/method/video.get?videos=${path.owner_id}_${path.id}_${path.access_key}&v=5.131&access_token=${process.env.vk_token || vk_token}`).then(data => data.json()).response.items[0].player;
+            let url = await fetch(`https://api.vk.com/method/video.get?videos=${path.owner_id}_${path.id}_${path.access_key}&v=5.131&access_token=${process.env.vk_token || vk_token}`).then(data => data.json()).then(res => res.items[0].player);
             // let url = data.response.items[0].player
             // Обрезаю ссылки, для нормального отображения в сообщении (с превью). Если ютуб, то одно, вк, другое, и тд.
             if (url.includes("youtube"))

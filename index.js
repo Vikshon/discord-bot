@@ -16,10 +16,10 @@ client.on('ready', () => {
     statistics(client);
     setInterval(() => {
         newsletter(client);
-    }, 1000 * 5);
+    }, 1000 * 10);
     setInterval(() => {
         statistics(client);
-    }, 1000 * 60);
+    }, 1000 * 60 * 10);
 });
 
 client.on('interactionCreate', async interaction => {

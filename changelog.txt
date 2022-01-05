@@ -1,4 +1,7 @@
 ---
+Fixing type video issue in modules/newsetter
+Changed updating time in index.js
+---
 Added changelog.txt and todo.txt
 Added .gitkeep in source/bages/frames for tracking frames folder
 Added if condition in views/index.js: if name == zero --> return (in case if u entering localhost w/o params)
