@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const CONFIG = require('../config.json');
+const adress = process.env.adress || `https://localhost:${port}`;
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -7,7 +8,7 @@ module.exports = {
 		.setDescription('Персонализировать бейдж'),
 	async execute(interaction) {
         // TODO: Ссылка должна быть на сайт хоста, а не локальный
-        let personal_link = "http://localhost:3000";
+        let personal_link = adress;
         const EVENT_GUILD_ID = interaction.guildId;
         const EVENT_USER_ID = interaction.user.id;
         const CURRENT_GUILD = CONFIG.guilds.find(guild => guild.id == EVENT_GUILD_ID);

@@ -2,6 +2,7 @@
 Refactor modules/newsletter.js from callbacks hell to async/await
 Some issues in modules/newsetter.js with video attachments
 Transfer all guilds[0] to const CURRENT_GUILD
+Добавить обработку ошибочных путей для сайта
 В мониторинге профиль может не существовать в базе, нужно это учесть
 Если профиль удален из статистики, то нужно удалять его бейдж из локального хранилища
 -- FEATURES

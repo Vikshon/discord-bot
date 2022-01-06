@@ -1,6 +1,7 @@
 ---
 Fiexd type video inssue in modules/newsletter.js
 Fixed messages fetch limit (increased from 1 to 10) in modules/newsletter.js
+Kinda adaptive express host url in server.js and some commands
 ---
 Fixing type video issue in modules/newsletter.js
 Changed updating time in index.js

@@ -27,6 +27,7 @@ module.exports = () => {
     const bodyParser = require('body-parser');
     const app = express();
     const port = process.env.PORT || 3000;
+    const adress = process.env.adress || `https://localhost:${port}`;
     app.use(express.static(__dirname + '/../source'));
     app.set('views', __dirname + '/../source/views');
     app.set('view engine', 'pug');
@@ -43,5 +44,5 @@ module.exports = () => {
         await res.redirect('back');
     });
     
-    app.listen(port, () => console.log(`Example app listening at https://localhost:${port}`));
+    app.listen(port, () => console.log(`Example app listening at ${adress}`));
 }

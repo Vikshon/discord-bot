@@ -1,15 +1,14 @@
 const fs = require('fs');
 const fetch = require('node-fetch');
-const config = require('../config.json');
-// const { discord_token, vk_token } = process.env || require('../secret.json');
-const discord_token = process.env.discord_token || require('../secret.json').discord_token;
+const CONFIG = require('../config.json');
+// const { vk_token } = process.env || require('../secret.json');
 const vk_token = process.env.vk_token || require('../secret.json').vk_token;
 let global_client;
 
 function GetPosts(client)
 {
     global_client = client;
-    const groups = config.guilds[0].groups;
+    const groups = CONFIG.guilds[0].groups;
     groups.forEach(async name => {
         try {
             let items = await fetch(`https://api.vk.com/method/wall.get?domain=${name}&count=5&v=5.131&access_token=${process.env.vk_token || vk_token}`).then(data => data.json()).then(json => json.response.items)
@@ -34,7 +33,7 @@ function GetPosts(client)
 
 async function ComparePost(last_post, callback)
 {
-    let messages = await global_client.channels.cache.get(config.guilds[0].channels.news).messages.fetch({ limit: 10 });
+    let messages = await global_client.channels.cache.get(CONFIG.guilds[0].channels.news).messages.fetch({ limit: 10 });
     let post_text = last_post.text;
     let isAds = last_post.marked_as_ads;
     let edited = last_post.edited ?? false;
@@ -118,7 +117,7 @@ async function SendPost(attachments, last_post, callback)
             str += `${a}\n`;
         if (str.length > 0)
             str = `\n\n● Ссылки:\n` + str;
-        await global_client.channels.cache.get(config.guilds[0].channels.news).send({content: (last_post.text || (last_post.date * 1000)) + str})
+        await global_client.channels.cache.get(CONFIG.guilds[0].channels.news).send({content: (last_post.text || (last_post.date * 1000)) + str})
         /* if (attachments.length > 0)
         {
             let str = "\n\n● Ссылки:\n"
