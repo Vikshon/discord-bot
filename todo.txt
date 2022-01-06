@@ -1,4 +1,5 @@
 -- FIX
+Refactor modules/newsletter.js from callbacks hell to async/await
 Some issues in modules/newsetter.js with video attachments
 Transfer all guilds[0] to const CURRENT_GUILD
 В мониторинге профиль может не существовать в базе, нужно это учесть

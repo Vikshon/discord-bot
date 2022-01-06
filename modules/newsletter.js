@@ -34,7 +34,7 @@ function GetPosts(client)
 
 async function ComparePost(last_post, callback)
 {
-    let messages = await global_client.channels.cache.get(config.guilds[0].channels.news).messages.fetch({ limit: 1 });
+    let messages = await global_client.channels.cache.get(config.guilds[0].channels.news).messages.fetch({ limit: 10 });
     let post_text = last_post.text;
     let isAds = last_post.marked_as_ads;
     let edited = last_post.edited ?? false;
@@ -78,9 +78,7 @@ async function GetAttachments(last_post, callback)
         }
         else if (type == "video")
         {
-            console.log(`https://api.vk.com/method/video.get?videos=${path.owner_id}_${path.id}_${path.access_key}&v=5.131&access_token=${process.env.vk_token || vk_token}`);
-            let url = await fetch(`https://api.vk.com/method/video.get?videos=${path.owner_id}_${path.id}_${path.access_key}&v=5.131&access_token=${process.env.vk_token || vk_token}`).then(data => data.json()).then(res => res.items[0].player);
-            // let url = data.response.items[0].player
+            let url = await fetch(`https://api.vk.com/method/video.get?videos=${path.owner_id}_${path.id}_${path.access_key}&v=5.131&access_token=${process.env.vk_token || vk_token}`).then(data => data.json()).then(json => json.response.items[0].player);
             // Обрезаю ссылки, для нормального отображения в сообщении (с превью). Если ютуб, то одно, вк, другое, и тд.
             if (url.includes("youtube"))
             {
@@ -138,12 +136,3 @@ async function SendPost(attachments, last_post, callback)
 }
 
 module.exports = GetPosts;
-// module.exports = {
-//     GetPosts
-//     /* console.log(client);
-//     let arr = [];
-//     const guilds = await client.guilds.cache.find(x => arr.push(x))
-//     console.log(arr)
-//     const groups = config.
-//     console.log(...config.guilds) */
-// }
