@@ -1,41 +1,31 @@
 const fs = require('fs');
 const fetch = require('node-fetch');
 const CONFIG = require('../config.json');
-// const { vk_token } = process.env || require('../secret.json');
 const vk_token = process.env.vk_token || require('../secret.json').vk_token;
 let global_client;
 let current_group;
 
-function GetPosts(client)
-{
-    global_client = client;
-    const groups = CONFIG.guilds[0].groups;
-    groups.forEach(async name => {
-        try {
-            current_group = name;
-            let items = await fetch(`https://api.vk.com/method/wall.get?domain=${name}&count=5&v=5.131&access_token=${process.env.vk_token || vk_token}`).then(data => data.json()).then(json => json.response.items)
-            let last_post = items[0];
-            if (items[0].is_pinned)
-                last_post = items[1];
-            // console.log(last_post);
+async function Get_Post(client) {
+    const GUILDS_ID = CONFIG.guilds.map(g => g.id);
+    for (let ID of GUILDS_ID) {
+        const CURRENT_GUILD = CONFIG.guilds.find(g => g.id == ID);
+        let CURRENT_GUILD_GROUPS = CURRENT_GUILD.groups;
+        CURRENT_GUILD_GROUPS.forEach(async GROUP => {
+            let items = await fetch(`https://api.vk.com/method/wall.get?domain=${GROUP}&count=5&v=5.131&access_token=${process.env.vk_token || vk_token}`).then(data => data.json()).then(json => json.response.items);
+            let last_post = (items[0].is_pinned) ? items[1] : items[0];
 
-            ComparePost(last_post, function() {
-                GetAttachments(last_post, function(attachments) {
-                    SendPost(attachments, last_post, function(result) {
-                        // 
-                    })
-                })
-            })
-        }
-        catch (error) {
-            console.log(error)
-        }
-    });
+            let fl = 1;
+            fl = await Compare_Post(last_post, client, CURRENT_GUILD);
+            if (fl == 0)
+                return false;
+            let attachments = await Get_Attachments(last_post);
+            await Send_Post(last_post, attachments, GROUP, client, CURRENT_GUILD);
+        })
+    }
 }
 
-async function ComparePost(last_post, callback)
-{
-    let messages = await global_client.channels.cache.get(CONFIG.guilds[0].channels.news).messages.fetch({ limit: 10 });
+async function Compare_Post(last_post, client, CURRENT_GUILD) {
+    let messages = await client.channels.cache.get(CURRENT_GUILD.channels.news).messages.fetch({ limit: 10 });
     let post_text = last_post.text;
     let isAds = last_post.marked_as_ads;
     let edited = last_post.edited ?? false;
@@ -43,24 +33,20 @@ async function ComparePost(last_post, callback)
     let current_date = Date.now();
     let hour_difference = Math.floor((current_date - post_date) / (1000 * 3600));
 
-    if (isAds || edited || hour_difference > 1)
-        return false;
-
     let fl = 1;
-    messages.forEach(msg => {
-        // Либо проверять текст поста и сообщения так, либо может отправлять ссылки и текста двумя сообщениями, и проверять текст через includes
-        if (msg.content == post_date || msg.content.startsWith(post_text)) {
+    if (isAds || edited || hour_difference > 1)
+        return fl = 0;
+    
+    for (let msg of messages) {
+        if (msg[1].content == post_date || msg[1].content.startsWith(post_text)) {
             fl = 0;
-            return false;
+            break;
         }
-    });
-    if (fl == 0)
-        return false;
-    return callback();
+    }
+    return fl;
 }
 
-async function GetAttachments(last_post, callback)
-{
+async function Get_Attachments(last_post) {
     let count = last_post.attachments.length;
     let links = [];
     for (let i = 0; i < count; i++)
@@ -104,16 +90,15 @@ async function GetAttachments(last_post, callback)
             console.log(type);
         }
     }
-    return callback(links);
+    return links;
 }
 
-async function SendPost(attachments, last_post)
-{
+async function Send_Post(last_post, attachments, GROUP, client, CURRENT_GUILD) {
     try {
-        let last_post_url = `https://vk.com/${current_group}?w=wall${last_post.owner_id}_${last_post.id}`;
+        let last_post_url = `https://vk.com/${GROUP}?w=wall${last_post.owner_id}_${last_post.id}`;
 
         let msg = last_post.text || last_post.date * 1000;
-        let attachments_str = `● Ссылки:\n`;
+        let attachments_str = `\n\n● Ссылки:\n`;
         if (msg.length + attachments.length > 1900) {
             let space_index = msg.slice(1850, 1900).lastIndexOf(' ');
             msg = msg.slice(0, space_index);
@@ -126,32 +111,17 @@ async function SendPost(attachments, last_post)
                 }
             }
 
-            await global_client.channels.cache.get(CONFIG.guilds[0].channels.news).send({ content: msg });
-            await global_client.channels.cache.get(CONFIG.guilds[0].channels.news).send({ content: attachments_str });
+            await client.channels.cache.get(CURRENT_GUILD.channels.news).send({ content: msg });
+            await client.channels.cache.get(CURRENT_GUILD.channels.news).send({ content: attachments_str });
         }
         else {
-            for (let a of attachments) {
-                attachments_str += `${a}\n\n`;
-            }
+            for (let a of attachments)
+                attachments_str += `${a}\n`;
             if (attachments_str.length > 20)
-                msg += `\n${attachments_str}`;
+                msg += `${attachments_str}`;
 
-            await global_client.channels.cache.get(CONFIG.guilds[0].channels.news).send({ content: msg });
+            await client.channels.cache.get(CURRENT_GUILD.channels.news).send({ content: msg });
         }
-
-        /* let message = last_post.text || last_post.date * 1000;
-        if (message.length < 1900) {
-            console.log(`attachments: ${attachments.length}`);
-            if (attachments.length > 0)
-                message += `\n\n● Ссылки:\n`;
-            for (let a of attachments) {
-                message += `${a}\n`;
-                if (message.length >= 1990)
-                message = message.replace(`${a}`, '');
-                break;
-            }
-        } */
-
     }
     catch (error) {
         if (last_post.text.length > 2000)
@@ -161,4 +131,4 @@ async function SendPost(attachments, last_post)
     }
 }
 
-module.exports = GetPosts;
+module.exports = Get_Post;
