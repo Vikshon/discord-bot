@@ -6,12 +6,14 @@ const commands = require('./modules/load_commands.js')(client);
 const fs = require('fs');
 const newsletter = require('./modules/newsletter.js');
 const statistics = require('./modules/statistics.js');
+const set_activity = require('./modules/set_activity.js');
 // const secret = require('./secret.json');
 //
 
 client.on('ready', () => {
     console.log('Ready!');
     // console.log(client.commands)
+    set_activity(client);
 
     statistics(client);
     setInterval(() => {

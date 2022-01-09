@@ -4,6 +4,7 @@ const CONFIG = require('../config.json');
 // const { vk_token } = process.env || require('../secret.json');
 const vk_token = process.env.vk_token || require('../secret.json').vk_token;
 let global_client;
+let current_group;
 
 function GetPosts(client)
 {
@@ -11,6 +12,7 @@ function GetPosts(client)
     const groups = CONFIG.guilds[0].groups;
     groups.forEach(async name => {
         try {
+            current_group = name;
             let items = await fetch(`https://api.vk.com/method/wall.get?domain=${name}&count=5&v=5.131&access_token=${process.env.vk_token || vk_token}`).then(data => data.json()).then(json => json.response.items)
             let last_post = items[0];
             if (items[0].is_pinned)
@@ -105,32 +107,57 @@ async function GetAttachments(last_post, callback)
     return callback(links);
 }
 
-async function SendPost(attachments, last_post, callback)
+async function SendPost(attachments, last_post)
 {
     try {
-        if (last_post.text.length > 2000) {
-            console.log('Слишком длинный текст!');
+        let last_post_url = `https://vk.com/${current_group}?w=wall${last_post.owner_id}_${last_post.id}`;
+
+        let msg = last_post.text || last_post.date * 1000;
+        let attachments_str = `● Ссылки:\n`;
+        if (msg.length + attachments.length > 1900) {
+            let space_index = msg.slice(1850, 1900).lastIndexOf(' ');
+            msg = msg.slice(0, space_index);
+            msg += `...\nПродолжение в источнике: ${last_post_url}`;
+            for (let a of attachments) {
+                attachments_str += `${a}\n`;
+                if (attachments_str.length > 1900) {
+                    attachments_str = attachments_str.replace(`${a}`, '');
+                    break;
+                }
+            }
+
+            await global_client.channels.cache.get(CONFIG.guilds[0].channels.news).send({ content: msg });
+            await global_client.channels.cache.get(CONFIG.guilds[0].channels.news).send({ content: attachments_str });
         }
-        
-        let str = "";
-        for (let a of attachments)
-            str += `${a}\n`;
-        if (str.length > 0)
-            str = `\n\n● Ссылки:\n` + str;
-        await global_client.channels.cache.get(CONFIG.guilds[0].channels.news).send({content: (last_post.text || (last_post.date * 1000)) + str})
-        /* if (attachments.length > 0)
-        {
-            let str = "\n\n● Ссылки:\n"
-            for (let a of attachments)
-                str += `${a},`
-            str = str.replaceAll(',', '\n')
-            await client.channels.cache.get(config.guilds[0].channels.news).send({content: (last_post.text || (last_post.date * 1000)) + str})
+        else {
+            for (let a of attachments) {
+                attachments_str += `${a}\n\n`;
+            }
+            if (attachments_str.length > 20)
+                msg += `\n${attachments_str}`;
+
+            await global_client.channels.cache.get(CONFIG.guilds[0].channels.news).send({ content: msg });
         }
-        else
-            await client.channels.cache.get(config.guilds[0].channels.news).send({content: last_post.text || (last_post.date * 1000)}) */
+
+        /* let message = last_post.text || last_post.date * 1000;
+        if (message.length < 1900) {
+            console.log(`attachments: ${attachments.length}`);
+            if (attachments.length > 0)
+                message += `\n\n● Ссылки:\n`;
+            for (let a of attachments) {
+                message += `${a}\n`;
+                if (message.length >= 1990)
+                message = message.replace(`${a}`, '');
+                break;
+            }
+        } */
+
     }
     catch (error) {
-        console.log(error);
+        if (last_post.text.length > 2000)
+            console.log('Слишком длинный текст!');
+        else
+            console.log(error);
     }
 }
 
