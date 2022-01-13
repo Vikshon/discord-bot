@@ -27,7 +27,7 @@ module.exports = () => {
     const bodyParser = require('body-parser');
     const app = express();
     const port = process.env.PORT || 3000;
-    const adress = process.env.adress || `https://localhost:${port}`;
+    const adress = process.env.adress || `http://localhost:${port}`;
     app.use(express.static(__dirname + '/../source'));
     app.set('views', __dirname + '/../source/views');
     app.set('view engine', 'pug');

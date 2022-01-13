@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const CONFIG = require('../config.json');
 const port = process.env.PORT || 3000;
-const adress = process.env.adress || `https://localhost:${port}`;
+const adress = process.env.adress || `http://localhost:${port}`;
 
 module.exports = {
 	data: new SlashCommandBuilder()

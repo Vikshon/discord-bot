@@ -1,4 +1,7 @@
 ---
+Fixed adress issue in module and command
+Added icon on web
+---
 Refactor modules/newsletter.js SendPost()
 Added modules/set_activity.js to set current activity of bot. Using for setting 'test' while testing from local pc etc.
 Refactoring modules/newsletter.js from callbacks to async/await
