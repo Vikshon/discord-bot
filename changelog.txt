@@ -1,4 +1,8 @@
 ---
+Added edit buttons to web site
+Some cosmetic changes in web site
+Added function to server.js for getting player background file
+---
 Trying to fix 'undefined' err in modules/newsletter.js
 Changed url GET params format, added fetch json with players cfg
 Temporary added player_config.json in source. Searching other solutions

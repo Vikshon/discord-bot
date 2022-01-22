@@ -3,8 +3,9 @@ const CONFIG = require('../config.json');
 async function Get_Data(params)
 {
     await Create_Players_Config();
+    let file = await Get_Preview_Background(params);
     // TODO: Нужно в конфиг записывать стату игроков, чтобы передавать её на сайт и там выводить персональную инфу. Пока что обойдёмся случайной
-    let data = [params, await fs.readdirSync(__dirname + '/../source/bages/available/')];
+    let data = [file, params, await fs.readdirSync(__dirname + '/../source/bages/available/')];
     return data;
     //// return await fs.readdirSync(__dirname + '/../source/bages/available/');
 }
@@ -21,6 +22,24 @@ function Create_Players_Config()
     }
 
     fs.writeFileSync('./source/player_config.json', JSON.stringify(player_config, null, '\t'));
+}
+
+function Get_Preview_Background(params)
+{
+    try {
+        let guild_id = Object.values(params)[0].slice(0, Object.values(params)[0].lastIndexOf('_'));
+        let player_id = Object.values(params)[0].slice(Object.values(params)[0].lastIndexOf('_') + 1);
+    
+        let filename = CONFIG.guilds.find(g => g.id == guild_id).players.find(p => p.discord_id == player_id).bage.background;
+        let file = fs.readdirSync('./source/bages/available/').filter(file => file.startsWith(filename));
+        
+        return file;        
+    }
+    catch(err) {
+        console.log(err);
+        console.log('Sending temp file...');
+        return 'ui_playercard_0.png';
+    }
 }
 
 async function Update_Config(params)
