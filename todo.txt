@@ -1,13 +1,12 @@
 -- FIX
-Refactor modules/newsletter.js from callbacks hell to async/await
-Some issues in modules/newsetter.js with video attachments
-Transfer all guilds[0] to const CURRENT_GUILD
+Добавить возможность добавлять и удалять фоны. Удалять только разрешенным ролям
 Добавить обработку ошибочных путей для сайта
 В мониторинге профиль может не существовать в базе, нужно это учесть
 Если профиль удален из статистики, то нужно удалять его бейдж из локального хранилища
 -- FEATURES
+Добавить анимацию "сохранения" настроек бейджа
+Добавить какой-то шифр для GET параметров
 Not sure about uplay rules with nicknames. Probably monitoring should depending on permanent links
 Commands for setting up monitoring system (add / remove profiles)
 Add more settings for guild admins
 Add ADMIN (bot creator) interaction in PM
-Transfer person params in request body, not in get params, if it is possible

@@ -10,7 +10,7 @@ const TEXT_OUTLINE_COLOR_INPUT = document.querySelector('input.text_outline_colo
 const RANK_IMAGE_SIDE_SELECT = document.querySelector('select.rank_image_side_select');
 const BORDER_STATUS = document.querySelector('input#border_checkbox');
 const TEXT_OUTLINE_STATUS = document.querySelector('input#text_outline_checkbox');
-let params = Build_Params();
+let params;
 
 IMAGES.forEach(el => {
     el.addEventListener('click', Change_Background)
@@ -24,6 +24,12 @@ CHECKBOX_HIDE.forEach(el => {
         event.target.parentNode.nextElementSibling.classList.toggle('hide_toggle');
     })
 });
+
+// #region Listeners
+
+window.addEventListener('load', () => {
+    Load_Config();
+})
 
 // TODO: Хотелось бы все имена привести к единому порядку, то есть и классы тоже. Тогда можно было бы все листнеры в единую функцию, и искать в конфиге имя по названию класса...
 TEXT_COLOR_INPUT.addEventListener('change', () => {
@@ -57,17 +63,45 @@ TEXT_OUTLINE_STATUS.addEventListener('click', () => {
         params.text_border = "transparent";
 })
 
+// #endregion
+
+// #region Functions
+
+async function Load_Config()
+{
+    let search = location.search.slice(1, location.search.length);
+    // Функция нужна для декодировки кириллических символов, например
+    let query = JSON.parse('{"' + search.replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) { return key===""?value:decodeURIComponent(value) });
+
+    let guild_id = Object.values(query)[0].slice(0, Object.values(query)[0].lastIndexOf('_'));
+    let player_id = Object.values(query)[0].slice(Object.values(query)[0].lastIndexOf('_') + 1);
+
+    let config = await fetch('./player_config.json').then(res => res.json());
+    console.log(config);
+    let current_player = await config.find(g => g.id == guild_id).players.find(p => p.discord_id == player_id);
+    params = current_player;
+
+    Create_Preview();
+}
+
+function Create_Preview()
+{
+    console.log('Creating Preview');
+}
+
 function Change_Background()
 {
     let img = document.querySelector('.preview .container .img img');
     img.src = this.src;
 
-    params.background = this.src.slice(this.src.lastIndexOf('/') + 1, this.src.lastIndexOf('.'));
+    params.bage.background = this.src.slice(this.src.lastIndexOf('/') + 1, this.src.lastIndexOf('.'));
 }
 
 function Save_Data()
 {
-    if (!(uplay_name in params))
+    console.log(params);
+    // ! Заменить, т.к. в строке больше нет данных параметров
+    if (!("uplay_name" in params))
         return;
     this.innerText = "Сохранено";
     
@@ -79,16 +113,15 @@ function Save_Data()
             // Запрос завершён. Здесь можно обрабатывать результат.
         }
     }
-
-    // console.log(JSON.stringify(params));
-    // console.log(params);
-    xhr.send(JSON.stringify(params));
-}
-
-function Build_Params()
-{
+    
+    // ! Зарефакторить, т.к. данный код повторяется
     let search = location.search.slice(1, location.search.length);
-    // Функция нужна для декодировки кириллических символов, например
-    search = JSON.parse('{"' + search.replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) { return key===""?value:decodeURIComponent(value) });
-    return search;
+    let query = JSON.parse('{"' + search.replace(/&/g, '","').replace(/=/g,'":"') + '"}', function(key, value) { return key===""?value:decodeURIComponent(value) });
+
+    let guild_id = Object.values(query)[0].slice(0, Object.values(query)[0].lastIndexOf('_'));
+    let player_id = Object.values(query)[0].slice(Object.values(query)[0].lastIndexOf('_') + 1);
+
+    xhr.send(JSON.stringify({ settings: params, query: { guild_id, player_id } }));
 }
+
+// #endregion

@@ -1,0 +1,33 @@
+[
+	{
+		"id": "638442661593874465",
+		"players": [
+			{
+				"discord_name": "キリル",
+				"discord_id": "218398638211203073",
+				"uplay_name": "zxc_GS",
+				"bage": {
+					"background": "ui_playercard_4",
+					"rank_image_side": "left",
+					"text_color": "#000000",
+					"text_border": "transparent",
+					"bage_border": "transparent"
+				},
+				"permanent_link": "https://r6.tracker.network/profile/id/2a33ccb1-2a86-4a1a-937d-8392219249e1"
+			},
+			{
+				"discord_name": "Peshka07",
+				"discord_id": "337641880995102721",
+				"uplay_name": "Peshka07_GS",
+				"bage": {
+					"background": "ui_playercard_1",
+					"rank_image_side": "right",
+					"text_color": "black",
+					"text_border": "transparent",
+					"bage_border": "transparent"
+				},
+				"permanent_link": "https://r6.tracker.network/profile/id/4e2e4f8d-6ecf-468b-b273-167fcac15fdf"
+			}
+		]
+	}
+]

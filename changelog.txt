@@ -1,6 +1,12 @@
 ---
+Trying to fix 'undefined' err in modules/newsletter.js
+Changed url GET params format, added fetch json with players cfg
+Temporary added player_config.json in source. Searching other solutions
+Source links fixes in newsletter.js etc
+---
 Fixed adress issue in module and command
 Added icon on web
+Fixing format of generated newsletter message. +considering of lower text fields. (from 1850 to 1900 means that text should be large, but it could not and can't find 'space')
 ---
 Refactor modules/newsletter.js SendPost()
 Added modules/set_activity.js to set current activity of bot. Using for setting 'test' while testing from local pc etc.
