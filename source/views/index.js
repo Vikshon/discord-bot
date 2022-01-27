@@ -60,8 +60,10 @@ RANK_IMAGE_SIDE_SELECT.addEventListener('input', () => {
 
 BORDER_CHECKBOX.addEventListener('click', () => {
     if (event.target.checked) {
-        PREVIEW.querySelector('.img > img').style.border = `2px solid black`;
-        params.bage.bage_border = "black";
+        let color = BORDER_COLOR_INPUT.value;
+        console.log(color);
+        PREVIEW.querySelector('.img > img').style.border = `2px solid ${color}`;
+        params.bage.bage_border = color;
     }
     else if (!event.target.checked) {
         PREVIEW.querySelector('.img > img').style.border = `none`;
@@ -71,8 +73,9 @@ BORDER_CHECKBOX.addEventListener('click', () => {
 
 TEXT_OUTLINE_CHECKBOX.addEventListener('click', () => {
     if (event.target.checked) {
-        PREVIEW.querySelector('.user_info').style.textShadow = `2px 0 0 black, -2px 0 0 black, 0 2px 0 black, 0 -2px 0 black, 1px 1px 0 black, 1px -1px 0 black, -1px 1px 0 black, -1px -1px 0 black`;
-        params.bage.text_border = "black";
+        let color = TEXT_OUTLINE_COLOR_INPUT.value;
+        PREVIEW.querySelector('.user_info').style.textShadow = `2px 0 0 ${color}, -2px 0 0 ${color}, 0 2px 0 ${color}, 0 -2px 0 ${color}, 1px 1px 0 ${color}, 1px -1px 0 ${color}, -1px 1px 0 ${color}, -1px -1px 0 ${color}`;
+        params.bage.text_border = color;
     }
     else if (!event.target.checked) {
         PREVIEW.querySelector('.user_info').style.textShadow = `none`;
@@ -118,6 +121,7 @@ async function Create_Preview()
         BORDER_COLOR_INPUT.value = color;
         BORDER_COLOR_INPUT.closest('.color_picker_wrapper').style.backgroundColor = color;
         PREVIEW.querySelector('.img > img').style.border = `2px solid ${color}`;
+        BORDER_COLOR_INPUT.closest('.hide_toggle').classList.remove('hide_toggle');
     }
     
     if (bage_settings.text_border !== "transparent") {
@@ -126,6 +130,7 @@ async function Create_Preview()
         TEXT_OUTLINE_COLOR_INPUT.value = color;
         TEXT_OUTLINE_COLOR_INPUT.closest('.color_picker_wrapper').style.backgroundColor = color;
         PREVIEW.querySelector('.user_info').style.textShadow = `2px 0 0 ${color}, -2px 0 0 ${color}, 0 2px 0 ${color}, 0 -2px 0 ${color}, 1px 1px 0 ${color}, 1px -1px 0 ${color}, -1px 1px 0 ${color}, -1px -1px 0 ${color}`;
+        TEXT_OUTLINE_COLOR_INPUT.closest('.hide_toggle').classList.remove('hide_toggle');
     }
 
     if (bage_settings.rank_image_side === "left") {

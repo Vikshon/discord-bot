@@ -11,7 +11,7 @@
 					"rank_image_side": "left",
 					"text_color": "#000000",
 					"text_border": "transparent",
-					"bage_border": "red"
+					"bage_border": "#FF0000"
 				},
 				"permanent_link": "https://r6.tracker.network/profile/id/2a33ccb1-2a86-4a1a-937d-8392219249e1"
 			},
@@ -22,7 +22,7 @@
 				"bage": {
 					"background": "ui_playercard_1",
 					"rank_image_side": "right",
-					"text_color": "black",
+					"text_color": "#000000",
 					"text_border": "transparent",
 					"bage_border": "transparent"
 				},

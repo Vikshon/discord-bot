@@ -38,7 +38,7 @@ function Get_Preview_Background(params)
     }
     catch(err) {
         // console.log(err);
-        console.log('Sending temp file...');
+        console.log('Error. Sending temp file...');
         return 'ui_playercard_0.png';
     }
 }
