@@ -1,4 +1,6 @@
 ---
+Some cosmetic changes in views/style.css
+---
 Added outline for bages in statistic.js
 views/index.js fix
 ---

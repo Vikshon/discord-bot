@@ -157,7 +157,7 @@ async function Make_Canvas(stats, CURRENT_GUILD)
         ctx.lineWidth = 2;
         await ctx.strokeRect(0, 0, width, height);
         // Обводка текста
-        ctx.lineWidth = 1;
+        ctx.lineWidth = 3;
         ctx.strokeStyle = await CURRENT_GUILD.players.find(p => p.uplay_name == stats.name).bage.text_border || "transparent";
         await ctx.strokeText(name, (width - rank_image_size ) / 2 - ctx.measureText(name).width / 2, 30);
         await ctx.strokeText(statistic, (width - rank_image_size) / 2 - ctx.measureText(statistic).width / 2, 60);
@@ -238,7 +238,7 @@ async function Make_Gif(stats, CURRENT_GUILD)
         ctx.lineWidth = 2;
         await ctx.strokeRect(0, 0, width, height);
         // Обводка текста
-        ctx.lineWidth = 1;
+        ctx.lineWidth = 3;
         ctx.strokeStyle = await CURRENT_GUILD.players.find(p => p.uplay_name == stats.name).bage.text_border || "transparent";
         await ctx.strokeText(name, (width - rank_image_size ) / 2 - ctx.measureText(name).width / 2, 30);
         await ctx.strokeText(statistic, (width - rank_image_size) / 2 - ctx.measureText(statistic).width / 2, 60);

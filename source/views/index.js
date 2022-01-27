@@ -1,3 +1,5 @@
+// #region Variables
+
 const SETTINGS = document.querySelector('.settings');
 const PREVIEW = document.querySelector('.preview');
 const LIBRARY = document.querySelector('.library');
@@ -15,6 +17,8 @@ const COLOR_PICKER = document.querySelectorAll(".color_picker");
 const CHECKBOX_HIDE = document.querySelectorAll('.checkbox_hide');
 
 let params;
+
+// #endregion
 
 // #region Listeners
 
@@ -106,8 +110,6 @@ async function Load_Config()
 
 async function Create_Preview()
 {
-    console.log('Creating Preview');
-
     const bage_settings = params.bage;
     
     // Просто установка value не поменяет фон родителя, а если просто поменять фон родителя, то при нажатии сохранить без изменении могут быть ошибки с фоном в конфиге
@@ -117,20 +119,20 @@ async function Create_Preview()
     
     if (bage_settings.bage_border !== "transparent") {
         let color = bage_settings.bage_border;
-        BORDER_CHECKBOX.click();
         BORDER_COLOR_INPUT.value = color;
         BORDER_COLOR_INPUT.closest('.color_picker_wrapper').style.backgroundColor = color;
         PREVIEW.querySelector('.img > img').style.border = `2px solid ${color}`;
         BORDER_COLOR_INPUT.closest('.hide_toggle').classList.remove('hide_toggle');
+        BORDER_CHECKBOX.click();
     }
     
     if (bage_settings.text_border !== "transparent") {
         let color = bage_settings.text_border;
-        TEXT_OUTLINE_CHECKBOX.click();
         TEXT_OUTLINE_COLOR_INPUT.value = color;
         TEXT_OUTLINE_COLOR_INPUT.closest('.color_picker_wrapper').style.backgroundColor = color;
         PREVIEW.querySelector('.user_info').style.textShadow = `2px 0 0 ${color}, -2px 0 0 ${color}, 0 2px 0 ${color}, 0 -2px 0 ${color}, 1px 1px 0 ${color}, 1px -1px 0 ${color}, -1px 1px 0 ${color}, -1px -1px 0 ${color}`;
         TEXT_OUTLINE_COLOR_INPUT.closest('.hide_toggle').classList.remove('hide_toggle');
+        TEXT_OUTLINE_CHECKBOX.click();
     }
 
     if (bage_settings.rank_image_side === "left") {
@@ -165,9 +167,14 @@ function Save_Data()
 {
     console.log(params);
     // ! Заменить, т.к. в строке больше нет данных параметров
-    if (!("q" in params))
+    if (!("uplay_name" in params))
         return;
     this.innerText = "Сохранено";
+    this.classList.add('saved');
+    setTimeout(() => {
+        this.innerText = "Сохранить";
+        this.classList.remove('saved');
+    }, 1000);
     
     let xhr = new XMLHttpRequest();
     xhr.open("POST", '/save');
