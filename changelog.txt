@@ -1,5 +1,7 @@
 ---
 Some cosmetic changes in views/style.css
+Some changes in format of messages in modules/newsletter.js
+Now comparing post url and message links
 ---
 Added outline for bages in statistic.js
 views/index.js fix
