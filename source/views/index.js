@@ -113,17 +113,19 @@ async function Create_Preview()
     PREVIEW.querySelector('.img').style.color = bage_settings.text_color;
     
     if (bage_settings.bage_border !== "transparent") {
+        let color = bage_settings.bage_border;
         BORDER_CHECKBOX.click();
-        BORDER_COLOR_INPUT.value = bage_settings.bage_border;
-        BORDER_COLOR_INPUT.closest('.color_picker_wrapper').style.backgroundColor = bage_settings.bage_border;
-        PREVIEW.querySelector('.img > img').style.border = `2px solid ${bage_settings.bage_border}`;
+        BORDER_COLOR_INPUT.value = color;
+        BORDER_COLOR_INPUT.closest('.color_picker_wrapper').style.backgroundColor = color;
+        PREVIEW.querySelector('.img > img').style.border = `2px solid ${color}`;
     }
     
     if (bage_settings.text_border !== "transparent") {
+        let color = bage_settings.text_border;
         TEXT_OUTLINE_CHECKBOX.click();
-        TEXT_OUTLINE_COLOR_INPUT.value = bage_settings.text_border;
-        TEXT_OUTLINE_COLOR_INPUT.closest('.color_picker_wrapper').style.backgroundColor = bage_settings.text_border;
-        PREVIEW.querySelector('.user_info').style.textShadow = `2px 0 0 ${event.target.value}, -2px 0 0 ${event.target.value}, 0 2px 0 ${event.target.value}, 0 -2px 0 ${event.target.value}, 1px 1px 0 ${event.target.value}, 1px -1px 0 ${event.target.value}, -1px 1px 0 ${event.target.value}, -1px -1px 0 ${event.target.value}`;
+        TEXT_OUTLINE_COLOR_INPUT.value = color;
+        TEXT_OUTLINE_COLOR_INPUT.closest('.color_picker_wrapper').style.backgroundColor = color;
+        PREVIEW.querySelector('.user_info').style.textShadow = `2px 0 0 ${color}, -2px 0 0 ${color}, 0 2px 0 ${color}, 0 -2px 0 ${color}, 1px 1px 0 ${color}, 1px -1px 0 ${color}, -1px 1px 0 ${color}, -1px -1px 0 ${color}`;
     }
 
     if (bage_settings.rank_image_side === "left") {
@@ -158,7 +160,7 @@ function Save_Data()
 {
     console.log(params);
     // ! Заменить, т.к. в строке больше нет данных параметров
-    if (!("uplay_name" in params))
+    if (!("q" in params))
         return;
     this.innerText = "Сохранено";
     

@@ -152,7 +152,12 @@ async function Make_Canvas(stats, CURRENT_GUILD)
         // Настройка текста
         ctx.font = '20px Comfortaa';
         ctx.fillStyle = await CURRENT_GUILD.players.find(p => p.uplay_name == stats.name).bage.text_color || "black";
+        // Обводка бейджа
+        ctx.strokeStyle = await CURRENT_GUILD.players.find(p => p.uplay_name == stats.name).bage.bage_border || "transparent";
+        ctx.lineWidth = 2;
+        await ctx.strokeRect(0, 0, width, height);
         // Обводка текста
+        ctx.lineWidth = 1;
         ctx.strokeStyle = await CURRENT_GUILD.players.find(p => p.uplay_name == stats.name).bage.text_border || "transparent";
         await ctx.strokeText(name, (width - rank_image_size ) / 2 - ctx.measureText(name).width / 2, 30);
         await ctx.strokeText(statistic, (width - rank_image_size) / 2 - ctx.measureText(statistic).width / 2, 60);
@@ -228,7 +233,12 @@ async function Make_Gif(stats, CURRENT_GUILD)
             await ctx.drawImage(rank_image, width - rank_image_size, 0, rank_image_size, rank_image_size);
         else if (rank_position == "left")
             await ctx.drawImage(rank_image, 0, 0, -rank_image_size, -rank_image_size);
+        // Обводка бейджа
+        ctx.strokeStyle = await CURRENT_GUILD.players.find(p => p.uplay_name == stats.name).bage.bage_border || "transparent";
+        ctx.lineWidth = 2;
+        await ctx.strokeRect(0, 0, width, height);
         // Обводка текста
+        ctx.lineWidth = 1;
         ctx.strokeStyle = await CURRENT_GUILD.players.find(p => p.uplay_name == stats.name).bage.text_border || "transparent";
         await ctx.strokeText(name, (width - rank_image_size ) / 2 - ctx.measureText(name).width / 2, 30);
         await ctx.strokeText(statistic, (width - rank_image_size) / 2 - ctx.measureText(statistic).width / 2, 60);

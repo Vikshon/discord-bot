@@ -27,6 +27,7 @@ function Create_Players_Config()
 function Get_Preview_Background(params)
 {
     try {
+        // ! Добавить исключение, если пользователя нет в конфиге
         let guild_id = Object.values(params)[0].slice(0, Object.values(params)[0].lastIndexOf('_'));
         let player_id = Object.values(params)[0].slice(Object.values(params)[0].lastIndexOf('_') + 1);
     
@@ -36,7 +37,7 @@ function Get_Preview_Background(params)
         return file;        
     }
     catch(err) {
-        console.log(err);
+        // console.log(err);
         console.log('Sending temp file...');
         return 'ui_playercard_0.png';
     }

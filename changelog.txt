@@ -1,4 +1,7 @@
 ---
+Added outline for bages in statistic.js
+views/index.js fix
+---
 Added edit buttons to web site
 Some cosmetic changes in web site
 Added function to server.js for getting player background file
