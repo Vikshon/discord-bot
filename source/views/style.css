@@ -14,6 +14,7 @@
 }
 ::-webkit-scrollbar {
     width: 6px;
+    height: 6px;
 }
 
 /* Track */
@@ -236,22 +237,22 @@ img {
     box-shadow: 0 0 10px 2px #ad9600;
     outline: 1px solid #F1D302;
 }
-.hide_toggle {
-    display: none !important;
+.library .add_bage_container {
+    width: 512px;
+    height: 128px;
 }
-/* input[type='color'] {
-    opacity: 0;
-	display: block;
-	width: 32px;
-	height: 32px;
-	border: none;
-}
-.color_picker_wrapper {
-    float: right;
-    border: 1px solid #000;
-} */
-/* label {
+.library .add_bage_container label {
+    height: 100%;
+    width: 100%;
+    background-color: rgb(65, 65, 255);
     display: flex;
     align-items: center;
     justify-content: center;
-} */
+    font-size: 128px;
+}
+.library .add_bage_container input {
+    display: none;
+}
+.hide_toggle {
+    display: none !important;
+}

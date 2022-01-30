@@ -46,6 +46,8 @@ html
           .container
             each picture in pictures
               img(src=`../bages/available/${picture}`)
+            .add_bage_container
+              label + #[input(type="file", accept=".jpg, .jpeg, .png, .gif" class="add_bage_btn")]
     script
       | let data = !{JSON.stringify(data)};
       | console.log(data);

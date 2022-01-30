@@ -109,7 +109,7 @@ async function Send_Post(last_post, attachments, GROUP, client, CURRENT_GUILD) {
         let last_post_url = `https://vk.com/${GROUP}?w=wall${last_post.owner_id}_${last_post.id}`;
 
         let msg = last_post.text || last_post.date * 1000;
-        let attachments_str = `\n\n● Ссылки:\n${last_post_url}\n`;
+        let attachments_str = `\n\n● Ссылки:\nИсточник: <${last_post_url}>\n`;
         if (msg.length + last_post_url.length + attachments.length > 1900) {
             let space_index = msg.slice(0, 1800).lastIndexOf(' ');
             msg = msg.slice(0, space_index);

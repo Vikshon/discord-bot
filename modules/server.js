@@ -59,6 +59,7 @@ async function Update_Config(params)
 module.exports = () => {
     const express = require('express');
     const bodyParser = require('body-parser');
+    const fileUpload = require('express-fileupload');
     const app = express();
     const port = process.env.PORT || 3000;
     const adress = process.env.adress || `http://localhost:${port}`;
@@ -68,6 +69,10 @@ module.exports = () => {
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: true }));
 
+    app.use(fileUpload({
+        createParentPath: true
+    }));
+
     app.get('/', async (req, res) => {
         res.render('index', { title: 'R6NEWSPAPER', data: await Get_Data(req.query) });
     });
@@ -76,8 +81,20 @@ module.exports = () => {
         console.log(req.body);
         await Update_Config(req.body);
         // Не очень нужно, но пусть пока будет
-        await res.redirect('back');
+        res.redirect('back');
     });
+
+    app.post('/save_bage', async (req, res) => {
+        try {
+            let image = req.files.image;
+            image.mv(__dirname + '/../source/bages/available/' + image.name);
+
+            res.send({ status: true, message: 'Image uploaded' });
+        }
+        catch (err) {
+            res.status(500).send(err);
+        }
+    })
     
     app.listen(port, () => console.log(`Example app listening at ${adress}`));
 }

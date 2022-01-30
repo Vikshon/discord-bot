@@ -13,8 +13,10 @@ const RANK_IMAGE_SIDE_SELECT = document.querySelector('select.rank_image_side_se
 const BORDER_CHECKBOX = document.querySelector('input#border_checkbox');
 const TEXT_OUTLINE_CHECKBOX = document.querySelector('input#text_outline_checkbox');
 
-const COLOR_PICKER = document.querySelectorAll(".color_picker");
+const COLOR_PICKER = document.querySelectorAll('.color_picker');
 const CHECKBOX_HIDE = document.querySelectorAll('.checkbox_hide');
+
+const ADD_BAGE_INPUT = LIBRARY.querySelector('.add_bage_btn');
 
 let params;
 
@@ -22,9 +24,10 @@ let params;
 
 // #region Listeners
 
-IMAGES.forEach(el => {
+/* IMAGES.forEach(el => {
     el.addEventListener('click', Change_Background)
-});
+}); */
+LIBRARY.addEventListener('click', Change_Background);
 
 SAVE_BTN.addEventListener('click', Save_Data);
 
@@ -86,6 +89,8 @@ TEXT_OUTLINE_CHECKBOX.addEventListener('click', () => {
         params.bage.text_border = "transparent";
     }
 })
+
+ADD_BAGE_INPUT.addEventListener('change', Load_Bage);
 
 // #endregion
 
@@ -155,12 +160,66 @@ async function Create_Preview()
     });
 }
 
+function Load_Bage() {
+    let last_index = Get_Last_Bage_Index();
+    let loaded_file = this.files[0];
+    console.log(loaded_file);
+    
+    if (!Valid_Image(loaded_file))
+        return alert('Ошибка: Некорректный формат изображения');
+    
+    let extension = loaded_file.name.slice(loaded_file.name.lastIndexOf('.') + 1);
+    let blob = new Blob([loaded_file], { type: `image/${extension}` });
+    let image = document.createElement('img');
+    image.src = URL.createObjectURL(blob);
+    image.onload = async function() {
+        if (this.width > 512 || this.height > 128) {
+            URL.revokeObjectURL(blob);
+            return alert('Ошибка: Максимальное допустимое разрешение: 512x128');
+        }
+
+        LIBRARY.firstElementChild.insertBefore(this, LIBRARY.firstElementChild.lastElementChild);
+        let formData = new FormData();
+        formData.append('image', blob, `ui_playercard_${+last_index + 1}.${extension}`);    
+
+        await fetch('/save_bage', {
+            method: 'POST',
+            body: formData
+        })
+            .then(res => res.json())
+            .then(data => console.log(data));
+        
+        URL.revokeObjectURL(blob);
+    }
+}
+
+function Valid_Image(file) {
+    let file_types = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+    if (file_types.includes(file.type)) {
+        return true;
+    }
+
+    return false;
+}
+
+function Get_Last_Bage_Index()
+{
+    let nodes = LIBRARY.querySelectorAll('img');
+    let last_image = nodes[nodes.length - 1];
+    let index = last_image.src.slice(last_image.src.lastIndexOf('_') + 1, last_image.src.lastIndexOf('.'));
+    
+    return index;
+}
+
 function Change_Background()
 {
+    let et = event.target;
+    if (!et.matches('img'))
+        return;
     let img = document.querySelector('.preview .container .img img');
-    img.src = this.src;
+    img.src = et.src;
 
-    params.bage.background = this.src.slice(this.src.lastIndexOf('/') + 1, this.src.lastIndexOf('.'));
+    params.bage.background = et.src.slice(et.src.lastIndexOf('/') + 1, et.src.lastIndexOf('.'));
 }
 
 function Save_Data()

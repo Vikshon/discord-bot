@@ -1,4 +1,7 @@
 ---
+Added Image uploading in views/index.js & modules/server.js
+Added npm packet 'express-fileupload'
+---
 Some cosmetic changes in views/style.css
 Some changes in format of messages in modules/newsletter.js
 Now comparing post url and message links
