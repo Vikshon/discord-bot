@@ -173,9 +173,9 @@ function Load_Bage() {
     let image = document.createElement('img');
     image.src = URL.createObjectURL(blob);
     image.onload = async function() {
-        if (this.width > 512 || this.height > 128) {
+        if (this.width != 512 || this.height != 128) {
             URL.revokeObjectURL(blob);
-            return alert('Ошибка: Максимальное допустимое разрешение: 512x128');
+            return alert('Ошибка: Допустимое разрешение = 512x128');
         }
 
         LIBRARY.firstElementChild.insertBefore(this, LIBRARY.firstElementChild.lastElementChild);

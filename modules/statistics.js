@@ -222,8 +222,10 @@ async function Make_Gif(stats, CURRENT_GUILD)
     ctx.font = '20px Comfortaa';
     ctx.fillStyle = await CURRENT_GUILD.players.find(p => p.uplay_name == stats.name).bage.text_color || "black";
 
+    let sorted = [];
     let files = await fs.readdirSync('./source/bages/frames/').filter(file => file.endsWith('.png'));
-    files.sort((a, b) => a - b);
+    await files.forEach(async (file, i) => await sorted.push(file.replace(/\d+/, i)));
+    files = await sorted;
     await encoder.start();
     for (let i of files)
     {
