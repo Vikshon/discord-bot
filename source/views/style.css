@@ -249,6 +249,7 @@ img {
     align-items: center;
     justify-content: center;
     font-size: 128px;
+    cursor: pointer;
 }
 .library .add_bage_container input {
     display: none;

@@ -188,8 +188,12 @@ function Load_Bage() {
         })
             .then(res => res.json())
             .then(data => console.log(data));
-        
         URL.revokeObjectURL(blob);
+        // ! Пересоздаю изображение, т.к. иначе image src = blob://...
+        this.remove();
+        let img = document.createElement('img');
+        img.src = `../bages/available/ui_playercard_${+last_index + 1}.${extension}`;
+        LIBRARY.firstElementChild.insertBefore(img, LIBRARY.firstElementChild.lastElementChild);
     }
 }
 
