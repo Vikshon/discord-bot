@@ -18,10 +18,12 @@ async function Get_Post(client) {
             let last_post = items[0];
 
             let fl = 1;
+            let attachments = [];
             fl = await Compare_Post(last_post, client, GROUP, CURRENT_GUILD);
             if (fl == 0)
                 return false;
-            let attachments = await Get_Attachments(last_post);
+            if (last_post.attachments)
+                attachments = await Get_Attachments(last_post);
             await Send_Post(last_post, attachments, GROUP, client, CURRENT_GUILD);
         })
     }
@@ -57,7 +59,7 @@ async function Compare_Post(last_post, client, GROUP, CURRENT_GUILD) {
 }
 
 async function Get_Attachments(last_post) {
-    console.log('[DEBUG] last_post:', last_post);
+    // console.log('[DEBUG] last_post:', last_post);
     let count = last_post.attachments.length;
     let links = [];
     for (let i = 0; i < count; i++)

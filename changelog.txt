@@ -1,4 +1,6 @@
 ---
+Fixing modules/newsletter.js crashing because of null attachments in post. ! Posts can include resposts from other groups, not considering now -> can be excluded by skipping last_post.copy_text
+---
 Added Image uploading in views/index.js & modules/server.js
 Added npm packet 'express-fileupload'
 ---
