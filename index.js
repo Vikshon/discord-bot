@@ -1,3 +1,6 @@
+const test_timer = require('./modules/test_timer');
+console.log(test_timer);
+
 // MODULES
 const server = require('./modules/server.js')();
 const { MessageAttachment, Client, Intents, Message } = require('discord.js');
