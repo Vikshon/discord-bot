@@ -10,8 +10,9 @@
 ADD 404 PAGE
 Кастомизация ширины линии обводки в бейджах
 Мобильную версию сайта
-Добавить сброс таймеров для статистики
 Добавить какой-то шифр для GET параметров
 Commands for setting up monitoring system (add / remove profiles)
 Add more settings for guild admins
 Add ADMIN (bot creator) interaction in PM
+
+Отказался от идеи сброса таймеров статистики, т.к. при большом количестве серверов и пользователей, это будет нереальная нагрузка и постоянные сбросы таймера
