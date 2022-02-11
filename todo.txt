@@ -1,4 +1,5 @@
 -- FIX
+Зарефакторить statistic.js, убрать повторение, наладить async await
 Удалять бейджы из source/bages etc. при изменении ника в uplay
 В views/index.js можно все события вынести в функции, чтобы избежать дубликации
 Добавить возможность добавлять и удалять фоны. Удалять только разрешенным ролям
@@ -10,9 +11,7 @@ ADD 404 PAGE
 Кастомизация ширины линии обводки в бейджах
 Мобильную версию сайта
 Добавить сброс таймеров для статистики
-Добавить анимацию "сохранения" настроек бейджа
 Добавить какой-то шифр для GET параметров
-Not sure about uplay rules with nicknames. Probably monitoring should depending on permanent links
 Commands for setting up monitoring system (add / remove profiles)
 Add more settings for guild admins
 Add ADMIN (bot creator) interaction in PM

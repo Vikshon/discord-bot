@@ -126,7 +126,10 @@ async function Make_Canvas(stats, CURRENT_GUILD)
     const BACKGROUND_DEFAULT = await fs.readdirSync(`./source/bages/available`).find(file => file.startsWith(`ui_playercard_0`));
 
     await Preload_Resources(stats);
-    if (BACKGROUND_TYPE == "png")
+    // ! Не знаю пока что как ещё сделать задержку для прогрузки ресурсов
+    await new Promise(r => setTimeout(r, 3000));
+    // if (BACKGROUND_TYPE == "png" || BACKGROUND_TYPE == "jpg" || BACKGROUND_TYPE == "jpeg")
+    if (BACKGROUND_TYPE.match('png|jpg|jpeg'))
     {
         const width = 512, height = 128;
         const canvas = await Canvas.createCanvas(width, height);
