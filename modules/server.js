@@ -75,7 +75,6 @@ module.exports = () => {
 
     app.get('/', async (req, res) => {
         res.render('index', { title: 'R6NEWSPAPER', data: await Get_Data(req.query) });
-        console.log(global.variable);
     });
     
     app.post('/save', async (req, res) => {
