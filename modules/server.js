@@ -38,7 +38,7 @@ function Get_Preview_Background(params)
     }
     catch(err) {
         // console.log(err);
-        console.log('Error. Sending default background...');
+        // console.log('Error. Sending default background...');
         return 'ui_playercard_0.png';
     }
 }

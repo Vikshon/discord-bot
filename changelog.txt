@@ -1,4 +1,6 @@
 ---
+Refactor statistic.js to promises. Now preloading resources is in promises, so await 3000 not necessary
+---
 Added jpg/jpeg types for bages background
 Added delay for loading resources for baegs (testing)
 ---

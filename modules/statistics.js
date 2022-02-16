@@ -32,7 +32,6 @@ async function Get_Statistics(client)
 
                     // TODO: Вроде как хочу перманент закинуть в конфиг, возможно это делать нужно не здесь
                     CURRENT_GUILD.players.find(p => p.uplay_name == i).permanent_link = await stats.permanent_link;
-                    // ! Если пользователь изменил ник в uplay, то меняем его ник в конфиге
                     let new_name = await stats.new_uplay_name;
                     if (i !== new_name)
                         CURRENT_GUILD.players.find(p => p.uplay_name == i).uplay_name = new_name;
@@ -53,7 +52,7 @@ async function Get_Statistics(client)
 async function Clear_Messages(channel)
 {
     let current_date = Date.now();
-    // toDO: get user count for limit
+    // TODO: get user count for limit
     let messages = await channel.messages.fetch({ limit: 5 });
     // Получаем разницу в днях между текущей и каждого сообщения в канале
     let dates_difference = [...messages.values()].map(el => Math.floor((current_date - el.createdTimestamp) / (1000 * 3600 * 24)));
@@ -127,8 +126,8 @@ async function Make_Canvas(stats, CURRENT_GUILD)
 
     await Preload_Resources(stats);
     // ! Не знаю пока что как ещё сделать задержку для прогрузки ресурсов
-    await new Promise(r => setTimeout(r, 3000));
-    // if (BACKGROUND_TYPE == "png" || BACKGROUND_TYPE == "jpg" || BACKGROUND_TYPE == "jpeg")
+    // await new Promise(r => setTimeout(r, 3000));
+    
     if (BACKGROUND_TYPE.match('png|jpg|jpeg'))
     {
         const width = 512, height = 128;
@@ -267,24 +266,76 @@ async function Delete_Frames()
     await files.forEach(async file => await fs.unlinkSync('./source/bages/frames/' + file));
 }
 
-async function Preload_Resources(stats)
-{
-    if (!fs.existsSync(`./source/ranks/${stats.rank_name}.svg`))
-        await fetch(stats.rank_img).then(res => res.body.pipe(fs.createWriteStream(`./source/ranks/${stats.rank_name}.svg`)));
-    if (!fs.existsSync(`./source/avatars/${stats.name}.png`))
-        await fetch(stats.avatar).then(res => res.body.pipe(fs.createWriteStream(`./source/avatars/${stats.name}.png`)));
+/* async */
+function Preload_Resources(stats) {
+    try {
+        return new Promise((resolve) => {
+            if (fs.existsSync(`./source/ranks/${stats.rank_name}.svg`))
+                resolve();
+            fetch(stats.rank_img).then(res => res.body.pipe(fs.createWriteStream(`./source/ranks/${stats.rank_name}.svg`)).on('finish', resolve));
+        })
+        .then(() => {
+            return new Promise(resolve => {
+                if (fs.existsSync(`./source/avatars/${stats.name}.png`))
+                    resolve();
+                fetch(stats.avatar).then(res => res.body.pipe(fs.createWriteStream(`./source/avatars/${stats.name}.png`)).on('finish', resolve));
+            })
+        })
+        .then(() => {
+            return new Promise(resolve => {
+                let i = stats.ops[0];
+                let op_name = i.slice(i.lastIndexOf('/') + 1, i.lastIndexOf('.'))
 
-    for (let i of stats.ops)
-    {
-        let op = await i.slice(i.lastIndexOf('/') + 1, i.lastIndexOf('.'))
-        if (!fs.existsSync(`./source/operators/${op}.png`))
-            await fetch(i).then(res => res.body.pipe(fs.createWriteStream(`./source/operators/${op}.png`)));
+                if (fs.existsSync(`./source/operators/${op_name}.png`))
+                    resolve();
+                fetch(i).then(res => res.body.pipe(fs.createWriteStream(`./source/operators/${op_name}.png`)).on('finish', resolve));
+            })
+        })
+        .then(() => {
+            return new Promise(resolve => {
+                let i = stats.ops[1];
+                let op_name = i.slice(i.lastIndexOf('/') + 1, i.lastIndexOf('.'))
+
+                if (fs.existsSync(`./source/operators/${op_name}.png`))
+                    resolve();
+                fetch(i).then(res => res.body.pipe(fs.createWriteStream(`./source/operators/${op_name}.png`)).on('finish', resolve));
+            })
+        })
+        .then(() => {
+            return new Promise(resolve => {
+                let i = stats.ops[2];
+                let op_name = i.slice(i.lastIndexOf('/') + 1, i.lastIndexOf('.'))
+
+                if (fs.existsSync(`./source/operators/${op_name}.png`))
+                    resolve();
+                fetch(i).then(res => res.body.pipe(fs.createWriteStream(`./source/operators/${op_name}.png`)).on('finish', resolve));
+            })
+        });
     }
-    // !
-    /* setTimeout(() => {
-        return callback();        
-    }, 2000); */
+    catch(err) {
+        console.log(err);
+    }
 }
+
+/* async function Preload_Resources(stats)
+{
+    try {
+        if (!fs.existsSync(`./source/ranks/${stats.rank_name}.svg`))
+            await fetch(stats.rank_img).then(res => res.body.pipe(fs.createWriteStream(`./source/ranks/${stats.rank_name}.svg`)));
+        if (!fs.existsSync(`./source/avatars/${stats.name}.png`))
+            await fetch(stats.avatar).then(res => res.body.pipe(fs.createWriteStream(`./source/avatars/${stats.name}.png`)));
+    
+        for (let i of stats.ops)
+        {
+            let op = await i.slice(i.lastIndexOf('/') + 1, i.lastIndexOf('.'))
+            if (!fs.existsSync(`./source/operators/${op}.png`))
+                await fetch(i).then(res => res.body.pipe(fs.createWriteStream(`./source/operators/${op}.png`)));
+        }
+    }
+    catch(err) {
+        console.log(err);
+    }
+} */
 
 async function Send_Bage(filename, STATISTIC_CHANNEL)
 {
